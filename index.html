@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wander Portfolio</title>
+<style>
+@font-face {
+  font-family: 'Iowan Old Style';
+  font-weight: 400;
+  font-style: normal;
+  src: url('landing-page-elements/Fonts/IowanOldStyle-Roman.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Iowan Old Style';
+  font-weight: 700;
+  font-style: bold;
+  src: url('landing-page-elements/Fonts/IowanOldStyle-Bold.otf') format('opentype');;
+}
+@font-face {
+  font-family: 'Iowan Old Style';
+  font-weight: 400;
+  font-style: italic;
+  src: url('landing-page-elements/Fonts/IowanOldStyle-Italic.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Iowan Old Style';
+  font-weight: 700;
+  font-style: italic;
+  src: url('landing-page-elements/Fonts/IowanOldStyle-BoldItalic.otf') format('opentype');
+}
+@font-face {
+  font-family: 'ITFDevanagari';
+  font-weight: 700;
+  font-style: normal;
+  src: url('landing-page-elements/Fonts/ITFDevanagari-Bold.otf') format('opentype');
+}
+</style>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0e0e0d;--surface:#161614;--border:rgba(255,255,255,0.08);
+  --text:#e8e5de;--muted:#7a7870;--accent:#c9b99a;
+  --tag-bg:rgba(255,255,255,0.06);--tag-hover:rgba(255,255,255,0.12);
+  --overlay:rgba(10,10,9,0.96);
+  --hero-bg:#fffde7;--hero-text:#1a1a1a;--hero-red:#b90800
+}
+body{background:var(--bg);color:var(--text);font-family:'Iowan Old Style',Georgia,serif;font-weight:400;min-height:100vh}
+
+/* HEADER */
+header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:flex-end;padding:clamp(14px, 3vh, 28px) 48px;background:transparent;transition:background 0.4s}
+header.dark-mode{background:rgba(14,14,13,0.92);backdrop-filter:blur(12px)}
+nav{display:flex;gap:36px}
+nav button{font-size:17px;font-family:'Iowan Old Style',Georgia,serif;font-weight:400;font-style:italic;color:var(--hero-text);background:none;border:none;cursor:pointer;transition:opacity 0.2s;padding:0;letter-spacing:0.01em}
+nav button:hover{opacity:0.45}
+nav button.dark-mode{color:var(--text)}
+
+/* HERO */
+.hero{height:100vh;background:var(--hero-bg);position:relative;overflow:hidden}
+.hero-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:12vh;text-align:center;z-index:2;pointer-events:none}
+.hero-headline{font-family:'Iowan Old Style',Georgia,serif;font-weight:700;font-style:normal;font-size:30px;color:var(--hero-text);letter-spacing:0.01em;line-height:1.2;margin-bottom:28px}
+.hero-headline .devanagari{font-family:'ITFDevanagari',serif;font-weight:700}
+.hero-definition{font-family:'Iowan Old Style',Georgia,serif;font-weight:400;font-style:italic;font-size:22px;color:var(--hero-text);line-height:1.65;max-width:580px}
+.hero-definition .verb{font-style:normal;font-weight:600;letter-spacing:0.04em;font-size:inherit;opacity:0.85;margin-right:4px}
+.hero-definition .strike{text-decoration:line-through;opacity:0.5}
+.hero-definition .red, #hero-hint .red, #hero-hint-2 .red{color:var(--hero-red)}
+.hero-svgs{position:absolute;inset:0;z-index:1;pointer-events:none}
+.hero-footsteps{position:absolute;left:30%;bottom:5%;width:4%;height:auto;display:block}
+.hero-compass{position:absolute;width:250px;height:auto;cursor:pointer;pointer-events:all;transition:transform 0.35s ease;display:block}
+/*.hero-compass:hover{transform:scale(1.07)}*/
+.hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;z-index:3;cursor:pointer;pointer-events:none;opacity:0;transition:opacity 0.9s ease}
+.hero-scroll.visible{opacity:1;pointer-events:all}
+.hero-scroll span{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:18px;color:var(--hero-text);opacity:0.5;letter-spacing:0.01em}
+.hero-scroll-line{width:1px;height:48px;background:var(--hero-text);opacity:0.2;animation:scrollLine 2.2s ease-in-out infinite}
+#hero-hint{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;opacity:0;transition:opacity 1s ease}
+#hero-hint.visible{opacity:1}
+#hero-hint span{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:13px;color:var(--hero-text);opacity:0.8;letter-spacing:0.04em;white-space:nowrap}
+.hero-hint-line{width:1px;height:40px;background:var(--hero-text);opacity:0.2;animation:scrollLine 2.2s ease-in-out infinite}
+#hero-hint-2{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;opacity:0;transition:opacity 0.9s ease}
+#hero-hint-2.visible{opacity:1}
+#hero-hint-2 span{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:13px;color:var(--hero-text);opacity:0.8;letter-spacing:0.04em;white-space:nowrap}
+@keyframes scrollLine{0%,100%{opacity:0.1;transform:scaleY(0.5);transform-origin:top}50%{opacity:0.3;transform:scaleY(1)}}
+
+/* GALLERY — clear float context so nothing bleeds in */
+#gallery{padding:80px 40px;max-width:1400px;margin:0 auto;overflow:hidden}
+.section-label{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:40px;display:flex;align-items:center;gap:16px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* FILTER */
+.filter-bar{margin-bottom:40px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:flex-start}
+.filter-category{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.cat-label{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-right:4px;white-space:nowrap}
+.tag-pill{font-size:11px;letter-spacing:0.06em;padding:5px 12px;border:1px solid var(--border);background:var(--tag-bg);color:var(--muted);cursor:pointer;transition:all 0.2s;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:300}
+.tag-pill:hover{color:var(--text);background:var(--tag-hover);border-color:rgba(255,255,255,0.15)}
+.tag-pill.active{color:var(--accent);border-color:rgba(201,185,154,0.4);background:rgba(201,185,154,0.07)}
+.clear-btn{font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;padding:5px 8px;text-decoration:underline;text-underline-offset:3px;transition:color 0.2s;font-family:'DM Sans',sans-serif}
+.clear-btn:hover{color:var(--text)}
+
+/* GRID */
+.photo-count{font-size:12px;color:var(--muted);margin-bottom:20px;letter-spacing:0.06em}
+.photo-grid{columns:4;column-gap:10px}
+@media(max-width:1200px){.photo-grid{columns:3}}
+@media(max-width:800px){.photo-grid{columns:2}}
+@media(max-width:500px){.photo-grid{columns:1}}
+.photo-item{break-inside:avoid;margin-bottom:10px;position:relative;overflow:hidden;cursor:pointer;background:var(--surface);display:block}
+.photo-item img{width:100%;height:auto;display:block;transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)}
+.photo-item:hover img{transform:scale(1.04)}
+.photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,transparent 55%);opacity:0;transition:opacity 0.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:14px;gap:5px}
+.photo-item:hover .photo-overlay{opacity:1}
+.photo-tags-preview{display:flex;flex-wrap:wrap;gap:4px}
+.mini-tag{font-size:10px;letter-spacing:0.06em;padding:2px 7px;background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.9);border-radius:2px}
+.no-results{padding:80px 0;text-align:center;color:var(--muted);font-size:14px;letter-spacing:0.08em}
+.loading{padding:80px 0;text-align:center;color:var(--muted);font-size:13px;letter-spacing:0.1em}
+.gallery-reveal{position:relative;overflow:hidden}
+.gallery-reveal.collapsed{max-height:1400px}
+.gallery-fade{position:absolute;bottom:0;left:0;right:0;height:220px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none;opacity:1;transition:opacity 0.3s}
+.gallery-reveal.expanded .gallery-fade{opacity:0;pointer-events:none}
+.gallery-more-btn{display:block;margin:20px auto 0;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--border);padding:10px 28px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.gallery-more-btn:hover{color:var(--text);border-color:rgba(255,255,255,0.2)}
+.back-to-top{position:fixed;bottom:72px;right:36px;z-index:150;background:rgba(14,14,13,0.88);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.55);;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;padding:10px 16px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.3s,color 0.2s,border-color 0.2s;opacity:0;pointer-events:none}
+.back-to-top.visible{opacity:1;pointer-events:all}
+.back-to-top:hover{color:var(--text);border-color:rgba(255,255,255,0.35)}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(255,253,231,0.97);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;padding:20px 68px}
+.lightbox.open{opacity:1;pointer-events:all}
+.lb-inner{display:flex;gap:40px;align-items:center;max-width:1100px;width:100%;max-height:calc(100vh - 60px)}
+.lb-img-wrap{flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:center;max-height:calc(100vh - 80px)}
+.lb-img-wrap img{max-width:100%;max-height:85vh;display:block;transition:opacity 0.25s;border-radius:2px;object-fit:contain}
+.lb-img-wrap img.fading{opacity:0}
+.lb-sidebar{width:240px;flex-shrink:0;position:relative;padding-top:120px;padding-bottom:160px;display:flex;flex-direction:column;gap:24px;overflow:hidden;height:calc(100vh - 80px)}
+.lb-close{position:fixed;top:20px;right:28px;background:none;border:none;color:rgba(26,26,26,0.4);font-size:22px;cursor:pointer;transition:color 0.2s;line-height:1;z-index:10}
+.lb-close:hover{color:#1a1a1a}
+.lb-nav{position:fixed;top:50%;transform:translateY(-50%);background:none;border:1px solid rgba(26,26,26,0.15);color:rgba(26,26,26,0.4);width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:22px;z-index:10}
+.lb-nav:hover{color:#1a1a1a;border-color:rgba(26,26,26,0.4)}
+.lb-nav.prev{left:12px}
+.lb-nav.next{right:12px}
+.lb-wander-header{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:15px;color:rgba(26,26,26,0.6);letter-spacing:0.02em;line-height:1.5}
+.lb-wander-header strong{font-weight:700;font-style:normal;color:#1a1a1a}
+.lb-cat-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(26,26,26,0.4);margin-bottom:8px;display:block}
+.lb-tags{display:flex;flex-wrap:wrap;gap:5px}
+.lb-tag{font-size:11px;letter-spacing:0.06em;padding:5px 11px;border:1px solid rgba(26,26,26,0.18);background:transparent;color:rgba(26,26,26,0.55);cursor:pointer;transition:all 0.2s;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:300}
+.lb-tag:hover{color:#1a1a1a;border-color:rgba(26,26,26,0.5)}
+.lb-tag.wandering{color:#1a1a1a;border-color:#1a1a1a;background:rgba(26,26,26,0.06)}
+.wander-section{display:flex;flex-direction:column;gap:12px;position:absolute;bottom:40px;left:0;right:0}
+.wander-next-hint{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:13px;color:rgba(26,26,26,0.55);letter-spacing:0.02em;line-height:1.5}
+.wander-next-hint strong{font-style:normal;color:#1a1a1a}
+.wander-btn{display:flex;align-items:center;justify-content:center;padding:14px;border:none;background:#1a1a1a;color:#fff;font-size:22px;cursor:pointer;transition:opacity 0.2s;width:100%;border-radius:2px}
+.wander-btn:hover{opacity:0.85}
+.wander-btn:disabled{opacity:0.25;cursor:not-allowed}
+.stop-btn{display:flex;align-items:center;justify-content:center;padding:10px 14px;border:1px solid rgba(26,26,26,0.2);background:none;color:rgba(26,26,26,0.55);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;border-radius:2px}
+.stop-btn:hover{color:#1a1a1a;border-color:#1a1a1a}
+
+/* ABOUT */
+#about{clear:both;background:var(--hero-bg);padding:100px 80px;width:100%}
+.about-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.about-col h2{font-family:'Iowan Old Style',Georgia,serif;font-weight:700;font-size:36px;color:var(--hero-red);line-height:1.25;margin-bottom:32px;text-align:center}
+.about-col p{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:18px;color:var(--hero-text);line-height:1.8;text-align:center;margin-bottom:16px}
+.about-col p strong{font-style:normal;font-weight:700}
+.about-center{max-width:1200px;margin:60px auto 0;display:flex;flex-direction:column;align-items:center;gap:24px}
+.about-footsteps{width:72px;height:auto;opacity:0.85}
+.about-wander-btn{background:#1a1a1a;color:var(--hero-bg);border:none;font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:16px;padding:14px 36px;cursor:pointer;letter-spacing:0.02em;transition:opacity 0.2s}
+.about-wander-btn:hover{opacity:0.75}
+
+/* FOOTER / CONTACT */
+footer{background:var(--bg);padding:24px 60px;display:flex;align-items:center;justify-content:space-between;gap:40px;border-top:none}
+.footer-name{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:15px;color:var(--text)}
+.footer-credit{display:flex;align-items:center;gap:10px;font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:13px;color:var(--muted)}
+.footer-credit img{height:38px;width:auto}
+.footer-contact-btn{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text);background:none;border:1px solid rgba(255,255,255,0.25);padding:12px 24px;cursor:pointer;font-family:'DM Sans',sans-serif;position:relative;overflow:hidden;transition:border-color 0.3s}
+.footer-contact-btn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);transition:left 0.55s ease}
+.footer-contact-btn:hover::after{left:100%}
+.footer-contact-btn:hover{border-color:rgba(255,255,255,0.5)}
+
+@media(max-width:768px){
+  header{padding:clamp(12px,2vh,18px) 20px}
+  #gallery{padding:60px 20px}
+  #about{padding:60px 32px}
+  .about-inner{grid-template-columns:1fr;gap:40px}
+  .lb-inner{flex-direction:column;align-items:center;overflow:hidden;max-height:calc(100vh - 40px)}
+  .lb-img-wrap{flex:0 0 auto;width:100%;max-height:min(48vh, calc(100vh - 300px));overflow:hidden}
+  .lb-img-wrap img{max-height:min(48vh, calc(100vh - 300px))}
+  .lb-sidebar{width:100%;height:auto;overflow:visible;padding-top:0;padding-bottom:0;margin-top:16px}
+  .wander-section{position:static;margin-top:24px}
+  .lb-nav.prev{left:8px}
+  .lb-nav.next{right:8px}
+}
+</style>
+<script>history.scrollRestoration = 'manual'; window.scrollTo(0, 0);</script>
+</head>
+<body>
+
+<header id="site-header">
+  <nav>
+    <button onclick="openRandom()" id="nav-wander">wander</button>
+    <button onclick="scrollToSection('about')" id="nav-about">about</button>
+  </nav>
+</header>
+
+<section class="hero" id="hero">
+
+  <!-- SVG layer: footsteps trail + compass -->
+  <div class="hero-svgs">
+    <img class="hero-footsteps"
+         src="landing-page-elements/icons_footsteps.svg"
+         alt="">
+    <img class="hero-compass" id="cta-btn"
+         src="landing-page-elements/icons_compass.svg"
+         alt="Enter the portfolio">
+    <div id="hero-hint">
+        <div class="hero-hint-line"></div>
+          <span>move your <span class="red">pointer</span> to start <span class="red">walking</span></span>
+    </div>
+    <div id="hero-hint-2">
+      <span>click in the <span class="red">middle</span> to start <span class="red">wandering</span></span>
+      <div class="hero-hint-line"></div>
+    </div>
+
+  </div>
+
+  <!-- Text layer -->
+  <div class="hero-content">
+    <h1 class="hero-headline">
+      deambular &nbsp;~&nbsp; wander &nbsp;~&nbsp; <span class="devanagari">&#2328;&#2370;&#2350;&#2344;&#2366;</span>
+    </h1>
+    <div class="hero-definition">
+      <span class="verb">verb:</span> to walk <span class="strike">somewhere</span>
+      <span class="red">through a photography portfolio</span><br>
+      slowly with no particular sense of direction or purpose
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="hero-scroll" onclick="scrollToSection('gallery')">
+    <span>or scroll down</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+
+</section>
+
+<section id="gallery">
+  <div class="section-label">Gallery</div>
+  <div class="filter-bar" id="filter-bar"></div>
+  <div class="photo-count" id="photo-count"></div>
+  <div class="gallery-reveal collapsed" id="gallery-reveal">
+    <div class="photo-grid" id="photo-grid">
+      <div class="loading">Loading photos&#8230;</div>
+    </div>
+    <div class="gallery-fade" id="gallery-fade"></div>
+  </div>
+  <button class="gallery-more-btn" id="gallery-more-btn">Show more</button>
+</section>
+
+<section id="about">
+  <div class="about-inner">
+    <div class="about-col">
+      <h2>Estas son algunas de mis fotos preferidas.</h2>
+      <p>Algunas por la paleta de colores,<br>otras por los sujetos;<br>por las texturas y tramados;<br>por lo simétrico de una situación.</p>
+      <p><strong>deambular</strong> es una forma que desarrollamos<br>para compartirles esas fotos.</p>
+    </div>
+    <div class="about-col">
+      <h2>These are some of my favourite photos.</h2>
+      <p>Some because of the colour palette,<br>others because of the subjects;<br>the textures and patterns;<br>the symmetry of a situation.</p>
+      <p><strong>wander</strong> is a way we developed<br>to share those photos with you.</p>
+    </div>
+  </div>
+  <div class="about-center">
+    <img class="about-footsteps" src="landing-page-elements/icons_footsteps.svg" alt="">
+    <button class="about-wander-btn" onclick="openRandom()">seguir deambulando</button>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-name">Clara Benedit Photography</span>
+  <div class="footer-credit">
+    <span>designed by</span>
+    <img src="landing-page-elements/clash_logo.png" alt="CLASH">
+  </div>
+  <button class="footer-contact-btn" onclick="window.location='mailto:YOUR_EMAIL_HERE'">Contact for prints and collabs ;)</button>
+</footer>
+
+<button class="back-to-top" id="back-to-top">&#8593; </button>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lb-close">&#10005;</button>
+  <button class="lb-nav prev" id="lb-prev">&#8249;</button>
+  <button class="lb-nav next" id="lb-next">&#8250;</button>
+  <div class="lb-inner">
+    <div class="lb-img-wrap">
+      <img id="lb-img" src="" alt="">
+    </div>
+    <div class="lb-sidebar">
+      <div class="lb-wander-header" id="lb-wander-header"></div>
+      <div>
+        <span class="lb-cat-label">ATTRIBUTES</span>
+        <div class="lb-tags" id="lb-tags-flat"></div>
+      </div>
+      <div class="wander-section" id="wander-section" style="display:none">
+        <div class="wander-next-hint" id="wander-next-hint"></div>
+        <button class="wander-btn" id="wander-btn">&#8594;</button>
+        <button class="stop-btn" id="stop-btn">or STOP WANDERING</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// CATEGORIES
+// Add or remove tags here to match your Bridge keyword sets.
+// "framing" has been added to Composition based on your CSV.
+// ─────────────────────────────────────────────────────────────────────────────
+const CATEGORIES = {
+  "Colours":     ["blue","brown","dark","green","monochrome","orange","pink","red","stone","white","yellow"],
+  "Composition": ["blurred","framing","lightshow","palette","pattern","reflection","symmetry","texture"],
+  "Setting":     ["beach","city","goldenhour","hills","night","road","water"],
+  "Subject":     ["architecture","arts","birds","chicken","flora & fauna","man-made","people","trees"]
+};
+
+// All known tags as a flat set for quick lookup
+const ALL_TAGS = new Set(Object.values(CATEGORIES).flat());
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CSV PARSER
+// Reads photos.csv from the same folder as this HTML file.
+// Column order from ExifTool: SourceFile, FileName, Keywords
+// Keywords are comma-separated. Everything is lowercased for consistency.
+// ─────────────────────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.trim().split("\n");
+  // Find header indices — works regardless of column order
+  const headers = lines[0].split(",").map(h => h.trim().toLowerCase().replace(/"/g,""));
+  const fileIdx = headers.indexOf("filename");
+  const kwIdx   = headers.indexOf("keywords");
+
+  if (fileIdx === -1 || kwIdx === -1) {
+    console.error("CSV missing FileName or Keywords column. Headers found:", headers);
+    return [];
+  }
+
+  const photos = [];
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // Split respecting quoted fields
+    const cols = splitCSVLine(line);
+    const fileName = (cols[fileIdx] || "").replace(/"/g,"").trim();
+    const kwRaw    = (cols[kwIdx]   || "").replace(/"/g,"").trim();
+
+    if (!fileName) continue;
+
+    // Parse tags: lowercase, trim, keep only recognised tags
+    const tags = kwRaw
+      .split(",")
+      .map(t => t.trim().toLowerCase())
+      .filter(t => t.length > 0);
+
+    photos.push({ file: fileName, tags: tags });
+  }
+  return photos;
+}
+
+function splitCSVLine(line) {
+  // Handles quoted fields that may contain commas
+  const result = [];
+  let current = "";
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') { inQuotes = !inQuotes; }
+    else if (ch === "," && !inQuotes) { result.push(current); current = ""; }
+    else { current += ch; }
+  }
+  result.push(current);
+  return result;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+let PHOTOS     = [];   // loaded from CSV
+let activeTags = new Set();
+let filtered   = [];
+let currentIdx = 0;
+let wanderTag  = null;
+let wanderPool = [];
+let wanderHist = [];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FILTER BAR
+// ─────────────────────────────────────────────────────────────────────────────
+function buildFilterBar() {
+  const bar = document.getElementById("filter-bar");
+  bar.innerHTML = "";
+
+  // Collect all unique tags actually present in photos
+  var usedTags = new Set();
+  PHOTOS.forEach(function(p) { p.tags.forEach(function(t) { usedTags.add(t); }); });
+
+  // Build pills for each category, only for tags that exist in CSV
+  for (const [cat, tags] of Object.entries(CATEGORIES)) {
+    var liveTags = tags.filter(function(t) { return usedTags.has(t); });
+    if (liveTags.length === 0) continue; // skip empty categories
+    const wrap = document.createElement("div");
+    wrap.className = "filter-category";
+    const lbl = document.createElement("span");
+    lbl.className = "cat-label";
+    lbl.textContent = cat;
+    wrap.appendChild(lbl);
+    liveTags.forEach(function(tag) {
+      const btn = document.createElement("button");
+      btn.className = "tag-pill" + (activeTags.has(tag) ? " active" : "");
+      btn.textContent = tag;
+      btn.addEventListener("click", function() { toggleTag(tag); });
+      wrap.appendChild(btn);
+    });
+    bar.appendChild(wrap);
+  }
+
+  // "Other" group: CSV tags not in any category
+  var knownTags = new Set(Object.values(CATEGORIES).flat());
+  var otherTags = Array.from(usedTags).filter(function(t) { return !knownTags.has(t); }).sort();
+  if (otherTags.length > 0) {
+    const wrap = document.createElement("div");
+    wrap.className = "filter-category";
+    const lbl = document.createElement("span");
+    lbl.className = "cat-label";
+    lbl.textContent = "Other";
+    wrap.appendChild(lbl);
+    otherTags.forEach(function(tag) {
+      const btn = document.createElement("button");
+      btn.className = "tag-pill" + (activeTags.has(tag) ? " active" : "");
+      btn.textContent = tag;
+      btn.addEventListener("click", function() { toggleTag(tag); });
+      wrap.appendChild(btn);
+    });
+    bar.appendChild(wrap);
+  }
+
+  if (activeTags.size > 0) {
+    const clr = document.createElement("button");
+    clr.className = "clear-btn";
+    clr.textContent = "Clear all";
+    clr.addEventListener("click", clearFilters);
+    bar.appendChild(clr);
+  }
+}
+
+
+function toggleTag(tag) {
+  activeTags.has(tag) ? activeTags.delete(tag) : activeTags.add(tag);
+  buildFilterBar();
+  renderGrid();
+}
+
+function clearFilters() {
+  activeTags.clear();
+  buildFilterBar();
+  renderGrid();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GRID
+// ─────────────────────────────────────────────────────────────────────────────
+function getFiltered() {
+  if (activeTags.size === 0) return PHOTOS.slice();
+  return PHOTOS.filter(function(p) {
+    return Array.from(activeTags).every(function(t) { return p.tags.includes(t); });
+  });
+}
+
+function renderGrid() {
+  filtered = getFiltered();
+  const grid  = document.getElementById("photo-grid");
+  const count = document.getElementById("photo-count");
+
+  count.textContent = activeTags.size === 0
+    ? filtered.length + " photographs"
+    : filtered.length + " photograph" + (filtered.length !== 1 ? "s" : "") +
+      " tagged " + Array.from(activeTags).join(" + ");
+
+  grid.innerHTML = "";
+
+  if (filtered.length === 0) {
+    const d = document.createElement("div");
+    d.className = "no-results";
+    d.textContent = "No photographs match this combination.";
+    grid.appendChild(d);
+    return;
+  }
+
+  filtered.forEach(function(photo, i) {
+    const item = document.createElement("div");
+    item.className = "photo-item";
+
+    const img = document.createElement("img");
+    img.src = "photos/" + photo.file;
+    img.alt = photo.file;
+    img.loading = "lazy";
+    // Fallback background if image fails to load
+    img.onerror = function() {
+      item.style.background = "#1a1a18";
+      item.style.minHeight  = "160px";
+    };
+
+    const ov = document.createElement("div");
+    ov.className = "photo-overlay";
+    const tw = document.createElement("div");
+    tw.className = "photo-tags-preview";
+    photo.tags.slice(0, 5).forEach(function(t) {
+      const s = document.createElement("span");
+      s.className = "mini-tag";
+      s.textContent = t;
+      tw.appendChild(s);
+    });
+    ov.appendChild(tw);
+    item.appendChild(img);
+    item.appendChild(ov);
+
+    item.addEventListener("click", function() { openLightbox(i); });
+    grid.appendChild(item);
+  });
+}
+(function() {
+  var reveal  = document.getElementById('gallery-reveal');
+  var moreBtn = document.getElementById('gallery-more-btn');
+  var showAll = false;
+
+  moreBtn.addEventListener('click', function() {
+    showAll = !showAll;
+    if (showAll) {
+      reveal.classList.remove('collapsed');
+      reveal.classList.add('expanded');
+      moreBtn.textContent = 'Show less';
+    } else {
+      reveal.classList.add('collapsed');
+      reveal.classList.remove('expanded');
+      moreBtn.textContent = 'Show more';
+      document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  var origRenderGrid = renderGrid;
+  renderGrid = function() {
+    origRenderGrid();
+    if (activeTags.size > 0) {
+      // Filter active — show everything, hide the button
+      reveal.classList.remove('collapsed');
+      reveal.classList.add('expanded');
+      moreBtn.style.display = 'none';
+      showAll = false;
+    } else {
+      // No filter — reset to collapsed, show button
+      showAll = false;
+      reveal.classList.add('collapsed');
+      reveal.classList.remove('expanded');
+      moreBtn.style.display = '';
+      moreBtn.textContent = 'Show more';
+    }
+  };
+})();
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LIGHTBOX
+// ─────────────────────────────────────────────────────────────────────────────
+function openLightbox(idx) {
+  filtered   = getFiltered();
+  currentIdx = idx;
+  wanderTag  = null;
+  wanderPool = [];
+  wanderHist = [];
+  showLightbox();
+}
+
+function openRandom() {
+  if (PHOTOS.length === 0) return;
+  filtered   = PHOTOS.slice();
+  currentIdx = Math.floor(Math.random() * filtered.length);
+  var photo  = filtered[currentIdx];
+  // Pick a random tag and start wander immediately
+  var tag    = photo.tags[Math.floor(Math.random() * photo.tags.length)];
+  wanderTag  = tag;
+  wanderPool = PHOTOS.filter(function(p) { return p.tags.includes(tag) && p.file !== photo.file; });
+  wanderHist = [];
+  showLightbox();
+}
+
+function showLightbox() {
+  renderLightbox();
+  document.getElementById("lightbox").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").classList.remove("open");
+  document.body.style.overflow = "";
+  wanderTag = null;
+}
+
+function renderLightbox() {
+  var photo = filtered[currentIdx];
+  if (!photo) return;
+
+  var img = document.getElementById("lb-img");
+  var isOpen = document.getElementById("lightbox").classList.contains("open");
+  if (isOpen) {
+    img.classList.add("fading");
+    setTimeout(function() {
+      img.src = "photos/" + photo.file;
+      img.alt = photo.file;
+      img.classList.remove("fading");
+    }, 200);
+  } else {
+    img.src = "photos/" + photo.file;
+    img.alt = photo.file;
+  }
+  // Header
+  var header = document.getElementById("lb-wander-header");
+  if (header) {
+    if (wanderTag) {
+      var total = PHOTOS.filter(function(p) { return p.tags.includes(wanderTag); }).length;
+      header.innerHTML = "Wandering through <strong>" + wanderTag + "</strong> &mdash; " + total + " photo" + (total !== 1 ? "s" : "");
+    } else {
+      header.innerHTML = "";
+    }
+  }
+
+  // Flat tag list
+  var tf = document.getElementById("lb-tags-flat");
+  if (tf) {
+    tf.innerHTML = "";
+    photo.tags.forEach(function(tag) {
+      var btn = document.createElement("button");
+      btn.className   = "lb-tag" + (tag === wanderTag ? " wandering" : "");
+      btn.textContent = tag;
+      btn.addEventListener("click", (function(t) {
+        return function() { selectWanderTag(t); };
+      })(tag));
+      tf.appendChild(btn);
+    });
+  }
+  renderWanderSection();
+
+}
+
+function selectWanderTag(tag) {
+  if (wanderTag === tag) {
+    wanderTag  = null;
+    wanderPool = [];
+    wanderHist = [];
+  } else {
+    wanderTag  = tag;
+    wanderPool = PHOTOS.filter(function(p) {
+      return p.tags.includes(tag) && p.file !== filtered[currentIdx].file;
+    });
+    wanderHist = [];
+  }
+  renderLightbox();
+}
+
+function clearWander() {
+  wanderTag = null; wanderPool = []; wanderHist = [];
+  renderLightbox();
+}
+
+function wanderNext() {
+  if (!wanderTag || !wanderPool.length) return;
+  var avail = wanderPool.filter(function(p) { return !wanderHist.includes(p.file); });
+  if (!avail.length) { wanderHist = []; avail = wanderPool.slice(); }
+  var next = avail[Math.floor(Math.random() * avail.length)];
+  wanderHist.push(next.file);
+  var idx = filtered.findIndex(function(p) { return p.file === next.file; });
+  if (idx === -1) { filtered.push(next); idx = filtered.length - 1; }
+  currentIdx = idx;
+  wanderPool = PHOTOS.filter(function(p) {
+    return p.tags.includes(wanderTag) && p.file !== next.file;
+  });
+  renderLightbox();
+}
+
+function renderWanderSection() {
+  var sec  = document.getElementById("wander-section");
+  var hint = document.getElementById("wander-next-hint");
+  var btn  = document.getElementById("wander-btn");
+  var hdr  = document.getElementById("lb-wander-header");
+  if (wanderTag) {
+    sec.style.display = "flex";
+    var total = PHOTOS.filter(function(p) { return p.tags.includes(wanderTag); }).length;
+    if (hdr) hdr.innerHTML = "Wandering through <strong>" + wanderTag + "</strong> &mdash; " + total + " photo" + (total !== 1 ? "s" : "");
+    if (hint) hint.innerHTML = "Space or click for next <strong>&ldquo;" + wanderTag + "&rdquo;</strong>";
+    btn.disabled = (wanderPool.length === 0);
+  } else {
+    sec.style.display = "none";
+    if (hdr) hdr.innerHTML = "";
+  }
+}
+
+function navigatePhoto(dir) {
+  var n = currentIdx + dir;
+  if (n < 0 || n >= filtered.length) return;
+  currentIdx = n;
+  if (wanderTag) {
+    wanderPool = PHOTOS.filter(function(p) {
+      return p.tags.includes(wanderTag) && p.file !== filtered[n].file;
+    });
+  }
+  renderLightbox();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EVENTS
+// ─────────────────────────────────────────────────────────────────────────────
+document.getElementById("cta-btn").addEventListener("click", openRandom);
+/*window.addEventListener('scroll', function() {
+  var hero = document.getElementById('hero');
+  if (!hero) return;
+  if (window.scrollY > hero.offsetHeight * 0.6) {
+    var h2 = document.getElementById('hero-hint-2');
+    if (h2) h2.classList.remove('visible');
+  }
+});*/
+document.getElementById("lb-close").addEventListener("click", closeLightbox);
+document.getElementById("lb-prev").addEventListener("click", function() { navigatePhoto(-1); });
+document.getElementById("lb-next").addEventListener("click", function() { navigatePhoto(1); });
+document.getElementById("wander-btn").addEventListener("click", wanderNext);
+document.getElementById("stop-btn").addEventListener("click", clearWander);
+
+document.getElementById("lightbox").addEventListener("click", function(e) {
+  if (e.target === this) closeLightbox();
+});
+
+document.addEventListener("keydown", function(e) {
+  if (!document.getElementById("lightbox").classList.contains("open")) return;
+  if (e.key === "Escape")     closeLightbox();
+  if (e.key === "ArrowLeft")  navigatePhoto(-1);
+  if (e.key === "ArrowRight") navigatePhoto(1);
+  if (e.key === " " && wanderTag) { e.preventDefault(); wanderNext(); }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NAV
+// ─────────────────────────────────────────────────────────────────────────────
+function scrollToSection(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth" });
+}
+(function() {
+  var header = document.getElementById('site-header');
+  var hero   = document.getElementById('hero');
+  function onScroll() {
+    var past = hero.getBoundingClientRect().bottom <= 60;
+    header.classList.toggle('dark-mode', past);
+    header.querySelectorAll('nav button').forEach(function(b) {
+      b.classList.toggle('dark-mode', past);
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+(function() {
+  var btn     = document.getElementById('back-to-top');
+  var trigger = document.getElementById('gallery');
+
+  function onScroll() {
+    if (!trigger) return;
+    var rect = trigger.getBoundingClientRect();
+    // Show once the "Show more" button has scrolled above the viewport
+    btn.classList.toggle('visible', rect.top < 0);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  btn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+// Position compass: right-center of hero, matching design layout
+(function positionCompass() {
+  function place() {
+    var compass = document.getElementById('cta-btn');
+    var hero    = document.getElementById('hero');
+    if (!compass || !hero) return;
+    var hw = hero.offsetWidth;
+    var hh = hero.offsetHeight;
+    // Position: horizontally ~60% from left, vertically ~52% from top
+    compass.style.left = (hw / 2 - compass.offsetWidth / 2) + 'px';
+    compass.style.top  = (hh / 2 - compass.offsetHeight / 2 + 70) + 'px';
+    var hint = document.getElementById('hero-hint');
+    if (hint) hint.style.top = (parseFloat(compass.style.top) + compass.offsetHeight + 14) + 'px';
+    var hint2 = document.getElementById('hero-hint-2');
+    if (hint2) hint2.style.top = (parseFloat(compass.style.top) - hint2.offsetHeight - 14) + 'px';
+  }
+  place();
+  window.addEventListener('resize', place);
+  var compassEl = document.getElementById('cta-btn');
+  if (compassEl) compassEl.addEventListener('load', place);
+  setTimeout(function() {
+    var h = document.getElementById('hero-hint');
+    if (!h) return;
+    h.classList.add('visible');
+    if (h.dataset.dismissed === '1') {
+      setTimeout(function() { h.classList.remove('visible'); }, 2000);
+    }
+  }, 900);
+})();
+
+// ── COMPASS LOOK-AT CURSOR ────────────────────────────────────────────────────
+(function() {
+  var compass  = document.getElementById('cta-btn');
+  var hero     = document.getElementById('hero');
+  if (!compass || !hero) return;
+
+  var currentAngle = 0;
+  var targetAngle  = 0;
+  window._setCompassAngle = function(a) { targetAngle = a; }; 
+  var isHovered    = false;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  // Smooth angle — avoid jitter by lerping and normalising
+  function shortestAngle(from, to) {
+    var diff = ((to - from) % 360 + 540) % 360 - 180;
+    return from + diff;
+  }
+
+  function animate() {
+    if (!isHovered) {
+      // Lerp toward target smoothly
+      currentAngle = lerp(currentAngle, shortestAngle(currentAngle, targetAngle), 0.08);
+      // Snap to target when close enough to avoid endless micro-movement
+      if (Math.abs(currentAngle - targetAngle) < 0.1) currentAngle = targetAngle;
+      compass.style.transform = 'rotate(' + currentAngle + 'deg)';
+    }
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+
+  hero.addEventListener('mousemove', function(e) {
+    if (isHovered) return;
+    var rect  = compass.getBoundingClientRect();
+    var cx    = rect.left + rect.width  / 2;
+    var cy    = rect.top  + rect.height / 2;
+    var dx    = e.clientX - cx;
+    var dy    = e.clientY - cy;
+
+    // When cursor is directly above or below (dx near 0), keep rotation at 0
+    // Angle scales with how far horizontally the cursor is
+    var raw   = Math.atan2(dy, dx) * (180 / Math.PI);
+    // Map to -180..180 based purely on x direction, stabilised by distance
+    var dist  = Math.sqrt(dx*dx + dy*dy);
+    if (dist < 10) { targetAngle = 0; return; } // dead zone — no jitter at centre
+    targetAngle = raw + 90;
+  });
+
+  compass.addEventListener('mouseenter', function() {
+    isHovered = true;
+    compass.style.transition = 'transform 0.3s ease';
+    compass.style.transform  = 'scale(1.07) rotate(0deg)';
+    currentAngle = 0;
+    targetAngle  = 0;
+  });
+
+  compass.addEventListener('mouseleave', function() {
+    isHovered = false;
+    compass.style.transition = 'none';
+  });
+
+  hero.addEventListener('mouseleave', function() {
+    targetAngle = 0;
+  });
+})();
+
+// ── FOOTSTEPS CURSOR TRAIL ────────────────────────────────────────────────────
+(function() {
+  var hero    = document.getElementById('hero');
+  var baseImg = document.querySelector('.hero-footsteps');
+  if (!baseImg || !hero) return;
+
+  // Minimum distance between stamps (relative to image size)
+  var MIN_DIST   = 60;   // tweak this — higher = more spread apart
+  var FADE_TIME  = 2200; // ms until fully faded by time
+  var MAX_DIST   = 300;  // px — fully faded at this distance from cursor
+  var stamps     = [];
+  var lastStamp  = null;
+  var mouse      = { x: null, y: null };
+  var heroRect   = hero.getBoundingClientRect();
+  var interacted = false;
+  var idleAnimation = null;
+  var idleAngle = 0;
+
+  // Keep baseImg visible as default, hide only after first interaction
+  baseImg.style.position  = 'absolute';
+  baseImg.style.width     = '3%';
+  baseImg.style.maxWidth  = 'none';
+  baseImg.style.bottom    = 'auto';
+  baseImg.style.pointerEvents = 'none';
+
+  function createStamp(x, y, angle) {
+    var el = baseImg.cloneNode();
+    el.style.display      = 'block';
+    el.style.position     = 'absolute';
+    el.style.width        = '3%';
+    el.style.maxWidth     = 'none';
+    el.style.pointerEvents = 'none';
+    el.style.opacity      = '1';
+    el.style.transformOrigin = 'center center';
+    el.style.transition   = 'none';
+    // Centre on position
+    hero.appendChild(el);
+    var w = el.offsetWidth;
+    var h = el.offsetHeight;
+    el.style.left      = (x - w / 2) + 'px';
+    el.style.top       = (y - h / 2) + 'px';
+    el.style.transform = 'rotate(' + angle + 'deg)';
+    return { el: el, x: x, y: y, born: Date.now() };
+  }
+
+  function dist(a, b) {
+    return Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+  }
+
+  // Update MIN_DIST based on current stamp size
+  function getMinDist() {
+    if (stamps.length === 0) return 60;
+    return stamps[stamps.length - 1].el.offsetWidth * 1.3;
+  }
+
+  hero.addEventListener('mousemove', function(e) {
+    heroRect  = hero.getBoundingClientRect();
+    mouse.x   = e.clientX - heroRect.left;
+    mouse.y   = e.clientY - heroRect.top;
+
+    if (!interacted) {
+    interacted = true;
+    cancelAnimationFrame(idleAnimation);
+    var hint = document.getElementById('hero-hint');
+    if (hint) {
+      if (hint.classList.contains('visible')) {
+        hint.classList.remove('visible');
+      } else {
+        hint.dataset.dismissed = '1';
+      }
+    }
+    var scroll = document.querySelector('.hero-scroll');
+    if (scroll) scroll.classList.add('visible');
+    var hint2 = document.getElementById('hero-hint-2');
+    if (hint2) hint2.classList.add('visible');
+    baseImg.style.opacity = '0';
+    idleStamps.forEach(function(s) {
+      s.el.parentNode && s.el.parentNode.removeChild(s.el);
+    });
+    idleStamps = [];
+    }
+
+    var angle = 0;
+    if (lastStamp) {
+      var dx = mouse.x - lastStamp.x;
+      var dy = mouse.y - lastStamp.y;
+      angle  = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+    }
+
+    var d = lastStamp ? dist(mouse, lastStamp) : Infinity;
+    if (d >= getMinDist()) {
+      var s  = createStamp(mouse.x, mouse.y, angle);
+      stamps.push(s);
+      lastStamp = { x: mouse.x, y: mouse.y };
+    }
+  });
+
+  hero.addEventListener('mouseleave', function() {
+    // Don't hide — leave stamps at last position, they fade naturally
+    mouse.x = null;
+    mouse.y = null;
+  });
+
+  // Animation loop — fade by time AND distance
+  function tick() {
+    var now = Date.now();
+    stamps = stamps.filter(function(s) {
+      var ageFade  = 1 - (now - s.born) / FADE_TIME;
+      var distFade = 1;
+      if (mouse.x !== null) {
+        var d = dist(s, { x: mouse.x, y: mouse.y });
+        distFade = Math.max(0, 1 - d / MAX_DIST);
+      }
+      // Use the lower of the two — must satisfy both to stay visible
+      var opacity = Math.max(0, Math.min(ageFade, distFade));
+      s.el.style.opacity = opacity;
+      if (opacity <= 0) {
+        s.el.parentNode && s.el.parentNode.removeChild(s.el);
+        return false;
+      }
+      return true;
+    });
+    requestAnimationFrame(tick);
+  }
+  // Idle loop — bouncing + fading stamps
+  var idleT  = 0;
+  var idleVx = 0.007; // horizontal speed — tweak this
+  var idleVy = 0.005; // vertical speed — tweak this
+  var idleTx = 0.3;   // starting horizontal phase
+  var idleTy = 0.6;   // starting vertical phase (offset so it doesn't start at corner)
+  var lastIdleX = null;
+  var lastIdleY = null;
+  var idleStamps = [];
+  var IDLE_MIN_DIST = 0; // will be set dynamically like main stamps
+
+  function idleTick() {
+    if (interacted) return;
+
+    idleTx += idleVx;
+    idleTy += idleVy;
+
+    // Lissajous / bouncing box motion — sine waves on x and y independently
+    var margin = 0.15;
+    var x = hero.offsetWidth  * (margin + (1 - margin * 2) * (Math.sin(idleTx) * 0.5 + 0.5));
+    var y = hero.offsetHeight * (margin + (1 - margin * 2) * (Math.sin(idleTy) * 0.5 + 0.5));
+
+    var angle = 90;
+    if (lastIdleX !== null) {
+      var dx = x - lastIdleX;
+      var dy = y - lastIdleY;
+      angle  = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+    }
+
+    if (window._setCompassAngle) window._setCompassAngle(angle);
+    // Stamp if far enough from last idle stamp
+    var minD = idleStamps.length > 0
+      ? idleStamps[idleStamps.length - 1].el.offsetWidth * 1.3
+      : 40;
+    var dFromLast = lastIdleX !== null
+      ? Math.sqrt((x - lastIdleX) * (x - lastIdleX) + (y - lastIdleY) * (y - lastIdleY))
+      : Infinity;
+
+    if (dFromLast >= minD) {
+      var el = baseImg.cloneNode();
+      el.style.display         = 'block';
+      el.style.position        = 'absolute';
+      el.style.width           = '3%';
+      el.style.maxWidth        = 'none';
+      el.style.pointerEvents   = 'none';
+      el.style.opacity         = '0.6';
+      el.style.transformOrigin = 'center center';
+      el.style.bottom          = 'auto';
+      hero.appendChild(el);
+      var w = el.offsetWidth;
+      var h = el.offsetHeight;
+      el.style.left      = (x - w / 2) + 'px';
+      el.style.top       = (y - h / 2) + 'px';
+      el.style.transform = 'rotate(' + angle + 'deg)';
+      idleStamps.push({ el: el, x: x, y: y, born: Date.now() });
+      lastIdleX = x;
+      lastIdleY = y;
+    }
+
+    // Fade idle stamps by time and distance from current position
+    var now = Date.now();
+    idleStamps = idleStamps.filter(function(s) {
+      var ageFade  = 1 - (now - s.born) / FADE_TIME;
+      var dx       = x - s.x;
+      var dy       = y - s.y;
+      var dist     = Math.sqrt(dx * dx + dy * dy);
+      var distFade = Math.max(0, 1 - dist / MAX_DIST);
+      var opacity  = Math.max(0, Math.min(ageFade, distFade)) * 0.6;
+      s.el.style.opacity = opacity;
+      if (opacity <= 0.01) {
+        s.el.parentNode && s.el.parentNode.removeChild(s.el);
+        return false;
+      }
+      return true;
+    });
+
+    // Hide the static baseImg — stamps do all the work
+    baseImg.style.opacity = '0';
+
+    idleAnimation = requestAnimationFrame(idleTick);
+  }
+  idleTick();
+  requestAnimationFrame(tick);
+})();
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT — fetch photos.csv, parse it, then build the page
+// ─────────────────────────────────────────────────────────────────────────────
+fetch("photos.csv")
+  .then(function(r) {
+    if (!r.ok) throw new Error("Could not load photos.csv — status " + r.status);
+    return r.text();
+  })
+  .then(function(text) {
+    PHOTOS = parseCSV(text);
+    if (PHOTOS.length === 0) {
+      document.getElementById("photo-grid").innerHTML =
+        '<div class="no-results">photos.csv loaded but no photos were found. Check the file format.</div>';
+      return;
+    }
+    buildFilterBar();
+    renderGrid();
+  })
+  .catch(function(err) {
+    console.error(err);
+    document.getElementById("photo-grid").innerHTML =
+      '<div class="no-results">'
+      + 'Could not load photos.csv.<br><br>'
+      + 'Make sure <strong>photos.csv</strong> is in the same folder as portfolio.html '
+      + 'and you are opening the site via Live Server (not by double-clicking the file).'
+      + '</div>';
+  });
+</script>
+</body>
+</html>
