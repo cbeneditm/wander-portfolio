@@ -56,30 +56,36 @@ nav button:hover{opacity:0.45}
 nav button.dark-mode{color:var(--text)}
 
 /* HERO */
-.hero{height:100vh;background:var(--hero-bg);position:relative;overflow:hidden}
+.hero{height:100vh;background:var(--hero-bg);position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center}
 .hero-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:12vh;text-align:center;z-index:2;pointer-events:none}
-.hero-headline{font-family:'Iowan Old Style',Georgia,serif;font-weight:700;font-style:normal;font-size:30px;color:var(--hero-text);letter-spacing:0.01em;line-height:1.2;margin-bottom:28px}
+.hero-headline{font-family:'Iowan Old Style',Georgia,serif;font-weight:700;font-style:normal;font-size:clamp(16px,2.8vmin,30px);color:var(--hero-text);letter-spacing:0.01em;line-height:1.2;margin-bottom:28px}
 .hero-headline .devanagari{font-family:'ITFDevanagari',serif;font-weight:700}
-.hero-definition{font-family:'Iowan Old Style',Georgia,serif;font-weight:400;font-style:italic;font-size:22px;color:var(--hero-text);line-height:1.65;max-width:580px}
+.hero-definition{font-family:'Iowan Old Style',Georgia,serif;font-weight:400;font-style:italic;font-size:clamp(14px,2.2vmin,22px);color:var(--hero-text);line-height:1.65;max-width:580px}
 .hero-definition .verb{font-style:normal;font-weight:600;letter-spacing:0.04em;font-size:inherit;opacity:0.85;margin-right:4px}
 .hero-definition .strike{text-decoration:line-through;opacity:0.5}
-.hero-definition .red, #hero-hint .red, #hero-hint-2 .red{color:var(--hero-red)}
+.hero-definition .red{color:var(--hero-red)}
 .hero-svgs{position:absolute;inset:0;z-index:1;pointer-events:none}
-.hero-footsteps{position:absolute;left:30%;bottom:5%;width:4%;height:auto;display:block}
-.hero-compass{position:absolute;width:250px;height:auto;cursor:pointer;pointer-events:all;transition:transform 0.35s ease;display:block}
-/*.hero-compass:hover{transform:scale(1.07)}*/
-.hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;z-index:3;cursor:pointer;pointer-events:none;opacity:0;transition:opacity 0.9s ease}
-.hero-scroll.visible{opacity:1;pointer-events:all}
-.hero-scroll span{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:18px;color:var(--hero-text);opacity:0.5;letter-spacing:0.01em}
-.hero-scroll-line{width:1px;height:48px;background:var(--hero-text);opacity:0.2;animation:scrollLine 2.2s ease-in-out infinite}
-#hero-hint{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;opacity:0;transition:opacity 1s ease}
-#hero-hint.visible{opacity:1}
-#hero-hint span{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:13px;color:var(--hero-text);opacity:0.8;letter-spacing:0.04em;white-space:nowrap}
-.hero-hint-line{width:1px;height:40px;background:var(--hero-text);opacity:0.2;animation:scrollLine 2.2s ease-in-out infinite}
-#hero-hint-2{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;opacity:0;transition:opacity 0.9s ease}
-#hero-hint-2.visible{opacity:1}
-#hero-hint-2 span{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:13px;color:var(--hero-text);opacity:0.8;letter-spacing:0.04em;white-space:nowrap}
+.hero-footsteps{position:absolute;left:30%;bottom:5%;width:3%;height:auto;display:block}
+.hero-compass{position:absolute;width:clamp(140px,22vmin,250px);height:auto;cursor:pointer;pointer-events:all;transition:transform 0.35s ease;display:block}
+#hero-hints-block{margin-top:auto;margin-bottom:150px;z-index:3;pointer-events:none;display:flex;flex-direction:column;align-items:center}
+#hint-texts{display:flex;flex-direction:column;align-items:center;gap:12px}
+.hint-item{opacity:0.2;transform:translateY(5px);transition:opacity 1.3s ease,transform 1.3s ease}
+#hint-scroll{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);pointer-events:all;cursor:pointer;font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:clamp(12px,1.6vmin,18px);color:var(--hero-text);letter-spacing:0.01em;white-space:nowrap;background:transparent;border:1px solid var(--hero-text);opacity:0.45;padding:5px 18px;border-radius:2px;transition:opacity 0.3s ease}
+#hint-scroll:hover{opacity:0.85}
+.hint-item.active{opacity:1;transform:translateY(0)}
+.hint-item span{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:clamp(12px,1.6vmin,18px);color:var(--hero-text);opacity:0.5;letter-spacing:0.01em;white-space:nowrap}
+.hint-line{width:1px;height:40px;background:var(--hero-text);opacity:0.2;animation:scrollLine 2.2s ease-in-out infinite}
+@keyframes hint-drift{0%{transform:translate(0,0)}30%{transform:translate(8px,-3px)}65%{transform:translate(-4px,2px)}100%{transform:translate(0,0)}}
+@keyframes hint-tap{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(0,2px) scale(0.9)}45%{transform:translate(0,4px) scale(0.78)}65%{transform:translate(0,0) scale(1.08)}85%{transform:translate(0,0) scale(1)}}
+@keyframes hint-down{0%{transform:translateY(0)}22%{transform:translateY(18px)}37%{transform:translateY(18px)}50%{transform:translateY(0)}72%{transform:translateY(18px)}86%{transform:translateY(18px)}100%{transform:translateY(0)}}
 @keyframes scrollLine{0%,100%{opacity:0.1;transform:scaleY(0.5);transform-origin:top}50%{opacity:0.3;transform:scaleY(1)}}
+@keyframes loader-spin{to{transform:rotate(360deg)}}
+#loader{position:fixed;inset:0;z-index:9999;background:var(--hero-bg);display:flex;align-items:center;justify-content:center;transition:opacity 0.6s ease}
+#loader.done{opacity:0;pointer-events:none}
+#loader img{width:clamp(100px,18vmin,160px);animation:loader-spin 1.4s linear infinite}
+#lb-loader{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
+#lb-loader.active{opacity:0.5}
+#lb-loader img{width:clamp(60px,10vmin,90px);animation:loader-spin 1.4s linear infinite}
 
 /* GALLERY — clear float context so nothing bleeds in */
 #gallery{padding:80px 40px;max-width:1400px;margin:0 auto;overflow:hidden}
@@ -107,6 +113,8 @@ nav button.dark-mode{color:var(--text)}
 .photo-item:hover img{transform:scale(1.04)}
 .photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,transparent 55%);opacity:0;transition:opacity 0.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:14px;gap:5px}
 .photo-item:hover .photo-overlay{opacity:1}
+.photo-item.touched .photo-overlay{opacity:1}
+.photo-item.touched img{transform:scale(1.04)}
 .photo-tags-preview{display:flex;flex-wrap:wrap;gap:4px}
 .mini-tag{font-size:10px;letter-spacing:0.06em;padding:2px 7px;background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.9);border-radius:2px}
 .no-results{padding:80px 0;text-align:center;color:var(--muted);font-size:14px;letter-spacing:0.08em}
@@ -117,39 +125,37 @@ nav button.dark-mode{color:var(--text)}
 .gallery-reveal.expanded .gallery-fade{opacity:0;pointer-events:none}
 .gallery-more-btn{display:block;margin:20px auto 0;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--border);padding:10px 28px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
 .gallery-more-btn:hover{color:var(--text);border-color:rgba(255,255,255,0.2)}
-.back-to-top{position:fixed;bottom:72px;right:36px;z-index:150;background:rgba(14,14,13,0.88);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.55);;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;padding:10px 16px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.3s,color 0.2s,border-color 0.2s;opacity:0;pointer-events:none}
+.back-to-top{position:fixed;bottom:80px;right:36px;z-index:150;background:rgba(14,14,13,0.88);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.55);;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;padding:10px 16px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.3s,color 0.2s,border-color 0.2s;opacity:0;pointer-events:none}
 .back-to-top.visible{opacity:1;pointer-events:all}
 .back-to-top:hover{color:var(--text);border-color:rgba(255,255,255,0.35)}
 
 /* LIGHTBOX */
-.lightbox{position:fixed;inset:0;z-index:200;background:rgba(255,253,231,0.97);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;padding:20px 68px}
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(255,253,231,0.97);opacity:0;pointer-events:none;transition:opacity 0.3s}
 .lightbox.open{opacity:1;pointer-events:all}
-.lb-inner{display:flex;gap:40px;align-items:center;max-width:1100px;width:100%;max-height:calc(100vh - 60px)}
-.lb-img-wrap{flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:center;max-height:calc(100vh - 80px)}
-.lb-img-wrap img{max-width:100%;max-height:85vh;display:block;transition:opacity 0.25s;border-radius:2px;object-fit:contain}
+.lb-img-wrap{position:absolute;inset:0;bottom:94px;display:flex;align-items:center;justify-content:center;padding:clamp(40px,5vh,60px) clamp(176px,14vw,200px) clamp(10px,2vh,20px)}
+.lb-img-wrap img{max-width:100%;max-height:100%;object-fit:contain;display:block;transition:opacity 0.25s;border-radius:2px}
 .lb-img-wrap img.fading{opacity:0}
-.lb-sidebar{width:240px;flex-shrink:0;position:relative;padding-top:120px;padding-bottom:160px;display:flex;flex-direction:column;gap:24px;overflow:hidden;height:calc(100vh - 80px)}
-.lb-close{position:fixed;top:20px;right:28px;background:none;border:none;color:rgba(26,26,26,0.4);font-size:22px;cursor:pointer;transition:color 0.2s;line-height:1;z-index:10}
+.lb-close{position:fixed;top:20px;left:24px;background:none;border:none;color:rgba(26,26,26,0.4);font-size:22px;cursor:pointer;transition:color 0.2s;line-height:1;z-index:210}
 .lb-close:hover{color:#1a1a1a}
-.lb-nav{position:fixed;top:50%;transform:translateY(-50%);background:none;border:1px solid rgba(26,26,26,0.15);color:rgba(26,26,26,0.4);width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:22px;z-index:10}
-.lb-nav:hover{color:#1a1a1a;border-color:rgba(26,26,26,0.4)}
-.lb-nav.prev{left:12px}
-.lb-nav.next{right:12px}
-.lb-wander-header{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:15px;color:rgba(26,26,26,0.6);letter-spacing:0.02em;line-height:1.5}
-.lb-wander-header strong{font-weight:700;font-style:normal;color:#1a1a1a}
-.lb-cat-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(26,26,26,0.4);margin-bottom:8px;display:block}
-.lb-tags{display:flex;flex-wrap:wrap;gap:5px}
-.lb-tag{font-size:11px;letter-spacing:0.06em;padding:5px 11px;border:1px solid rgba(26,26,26,0.18);background:transparent;color:rgba(26,26,26,0.55);cursor:pointer;transition:all 0.2s;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:300}
-.lb-tag:hover{color:#1a1a1a;border-color:rgba(26,26,26,0.5)}
-.lb-tag.wandering{color:#1a1a1a;border-color:#1a1a1a;background:rgba(26,26,26,0.06)}
-.wander-section{display:flex;flex-direction:column;gap:12px;position:absolute;bottom:40px;left:0;right:0}
-.wander-next-hint{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:13px;color:rgba(26,26,26,0.55);letter-spacing:0.02em;line-height:1.5}
-.wander-next-hint strong{font-style:normal;color:#1a1a1a}
-.wander-btn{display:flex;align-items:center;justify-content:center;padding:14px;border:none;background:#1a1a1a;color:#fff;font-size:22px;cursor:pointer;transition:opacity 0.2s;width:100%;border-radius:2px}
-.wander-btn:hover{opacity:0.85}
-.wander-btn:disabled{opacity:0.25;cursor:not-allowed}
-.stop-btn{display:flex;align-items:center;justify-content:center;padding:10px 14px;border:1px solid rgba(26,26,26,0.2);background:none;color:rgba(26,26,26,0.55);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;border-radius:2px}
-.stop-btn:hover{color:#1a1a1a;border-color:#1a1a1a}
+.lb-thumb{position:fixed;cursor:pointer;z-index:205;display:flex;flex-direction:column;gap:6px}
+.lb-thumb img{display:block;width:160px;height:120px;object-fit:cover;border-radius:2px;transition:opacity 0.2s}
+.lb-thumb:hover img{opacity:0.7}
+.lb-thumb-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(26,26,26,0.45);font-family:'DM Sans',sans-serif}
+.lb-thumb-next{align-items:flex-start}
+.lb-thumb-prev{align-items:flex-end}
+.lb-bar{position:fixed;bottom:16px;left:0;right:0;height:64px;background:#1a1a1a;color:#fff;display:flex;align-items:center;z-index:205}
+.lb-bar-stop{flex-shrink:0;padding:0 24px;height:100%;display:flex;align-items:center;border:none;border-right:1px solid rgba(255,255,255,0.12);background:none;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.55);cursor:pointer;font-family:'DM Sans',sans-serif;transition:color 0.2s;white-space:nowrap}
+.lb-bar-stop:hover{color:#fff}
+.lb-bar-center{flex:1;padding:0 20px;display:flex;align-items:center;gap:12px;overflow:hidden;min-width:0}
+.lb-bar-header{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:13px;color:rgba(255,255,255,0.55);white-space:nowrap;flex-shrink:0}
+.lb-bar-header strong{font-style:normal;color:#fff}
+.lb-tags{display:flex;flex-wrap:nowrap;gap:5px;overflow:hidden}
+.lb-tag{font-size:11px;letter-spacing:0.06em;padding:4px 10px;border:1px solid rgba(255,255,255,0.25);background:transparent;color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.2s;border-radius:2px;font-family:'DM Sans',sans-serif;font-weight:300;white-space:nowrap;flex-shrink:0}
+.lb-tag:hover{color:#fff;border-color:rgba(255,255,255,0.7)}
+.lb-tag.wandering{color:#fff;border-color:#fff;background:rgba(255,255,255,0.12)}
+.lb-bar-wander{flex-shrink:0;padding:0 24px;height:100%;display:flex;align-items:center;gap:8px;border:none;border-left:1px solid rgba(255,255,255,0.12);background:none;font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:15px;color:rgba(255,255,255,0.85);cursor:pointer;transition:color 0.2s;white-space:nowrap}
+.lb-bar-wander:hover{color:#fff}
+.lb-bar-wander:disabled{opacity:0.3;cursor:not-allowed}
 
 /* ABOUT */
 #about{clear:both;background:var(--hero-bg);padding:100px 80px;width:100%}
@@ -163,11 +169,11 @@ nav button.dark-mode{color:var(--text)}
 .about-wander-btn:hover{opacity:0.75}
 
 /* FOOTER / CONTACT */
-footer{background:var(--bg);padding:24px 60px;display:flex;align-items:center;justify-content:space-between;gap:40px;border-top:none}
+footer{background:var(--bg);padding:24px 60px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-top:none}
 .footer-name{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:15px;color:var(--text)}
 .footer-credit{display:flex;align-items:center;gap:10px;font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:13px;color:var(--muted)}
 .footer-credit img{height:38px;width:auto}
-.footer-contact-btn{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text);background:none;border:1px solid rgba(255,255,255,0.25);padding:12px 24px;cursor:pointer;font-family:'DM Sans',sans-serif;position:relative;overflow:hidden;transition:border-color 0.3s}
+.footer-contact-btn{justify-self:end;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text);background:none;border:1px solid rgba(255,255,255,0.25);padding:12px 24px;cursor:pointer;font-family:'DM Sans',sans-serif;position:relative;overflow:hidden;transition:border-color 0.3s}
 .footer-contact-btn::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);transition:left 0.55s ease}
 .footer-contact-btn:hover::after{left:100%}
 .footer-contact-btn:hover{border-color:rgba(255,255,255,0.5)}
@@ -177,18 +183,59 @@ footer{background:var(--bg);padding:24px 60px;display:flex;align-items:center;ju
   #gallery{padding:60px 20px}
   #about{padding:60px 32px}
   .about-inner{grid-template-columns:1fr;gap:40px}
-  .lb-inner{flex-direction:column;align-items:center;overflow:hidden;max-height:calc(100vh - 40px)}
-  .lb-img-wrap{flex:0 0 auto;width:100%;max-height:min(48vh, calc(100vh - 300px));overflow:hidden}
-  .lb-img-wrap img{max-height:min(48vh, calc(100vh - 300px))}
-  .lb-sidebar{width:100%;height:auto;overflow:visible;padding-top:0;padding-bottom:0;margin-top:16px}
-  .wander-section{position:static;margin-top:24px}
-  .lb-nav.prev{left:8px}
-  .lb-nav.next{right:8px}
+  .lb-img-wrap{padding:90px 16px 8px}
+  .lb-thumb img{width:80px;height:60px}
+  .lb-bar{flex-wrap:wrap;height:auto}
+  .lb-bar-center{order:1;flex:0 0 100%;flex-direction:column;align-items:flex-start;gap:8px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.1)}
+  .lb-bar-header{white-space:normal}
+  .lb-tags{flex-wrap:wrap}
+  .lb-bar-wander{order:3;flex:1;height:auto;padding:10px 16px;justify-content:center;border-left:none;border-right:1px solid rgba(255,255,255,0.1)}
+  .lb-bar-stop{order:2;flex:1;height:auto;padding:10px 16px;justify-content:center;border-right:none}
+  .lb-img-wrap{padding:90px 16px 8px;bottom:220px}
+  .lb-thumb{flex-direction:row-reverse;align-items:center;gap:8px}
+  .lb-thumb-next,.lb-thumb-prev{align-items:center}
+  .lb-thumb img{width:68px;height:51px}
+  footer{padding:20px 24px}
+  .footer-contact-btn{font-size:0;letter-spacing:0;padding:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+  .footer-contact-btn::before{content:'✉';font-size:24px}
+
 }
+
+@media(min-width:769px) and (max-width:1024px){
+  .lb-bar{flex-wrap:wrap;height:auto}
+  .lb-bar-center{order:1;flex:0 0 100%;flex-direction:column;align-items:flex-start;gap:8px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.1)}
+  .lb-bar-header{white-space:normal}
+  .lb-tags{flex-wrap:wrap}
+  .lb-bar-wander{order:3;flex:1;height:auto;padding:10px 16px;justify-content:center;border-left:none;border-right:1px solid rgba(255,255,255,0.1)}
+  .lb-bar-stop{order:2;flex:1;height:auto;padding:10px 16px;justify-content:center;border-right:none}
+  .lb-thumb img{width:100px;height:75px}
+}
+/* CONTACT MODAL */
+.contact-modal{position:fixed;inset:0;z-index:300;background:rgba(255,253,231,0.97);opacity:0;pointer-events:none;transition:opacity 0.3s;display:flex;align-items:center;justify-content:center}
+.contact-modal.open{opacity:1;pointer-events:all}
+.contact-modal-inner{position:relative;width:min(500px,88vw);padding:56px 48px 44px}
+.contact-modal-close{position:absolute;top:16px;right:20px;background:none;border:none;color:rgba(26,26,26,0.35);font-size:22px;cursor:pointer;line-height:1;transition:color 0.2s}
+.contact-modal-close:hover{color:#1a1a1a}
+.contact-modal h2{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(20px,3vmin,26px);color:var(--hero-text);margin-bottom:36px}
+.contact-field{display:flex;flex-direction:column;gap:5px;margin-bottom:22px}
+.contact-field label{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:12px;letter-spacing:0.06em;color:rgba(26,26,26,0.5)}
+.contact-field input,.contact-field textarea{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:15px;color:var(--hero-text);background:transparent;border:none;border-bottom:1px solid rgba(26,26,26,0.2);padding:7px 0;outline:none;width:100%;transition:border-color 0.2s;resize:none}
+.contact-field input:focus,.contact-field textarea:focus{border-bottom-color:rgba(26,26,26,0.65)}
+.contact-field textarea{min-height:96px}
+.contact-submit-row{margin-top:32px;display:flex;justify-content:flex-end}
+.contact-modal .footer-contact-btn{color:var(--hero-text);border-color:rgba(26,26,26,0.25)}
+.contact-modal .footer-contact-btn:hover{border-color:rgba(26,26,26,0.6)}
+.contact-modal .footer-contact-btn::after{background:linear-gradient(90deg,transparent,rgba(26,26,26,0.06),transparent)}
+@media(max-width:768px){.contact-modal .footer-contact-btn{font-size:10px;letter-spacing:0.16em;padding:12px 24px;width:auto;height:auto;border-radius:0;display:inline-block}.contact-modal .footer-contact-btn::before{content:''}}
+
 </style>
 <script>history.scrollRestoration = 'manual'; window.scrollTo(0, 0);</script>
 </head>
 <body>
+
+<div id="loader">
+  <img src="landing-page-elements/icons_compass_N.svg" alt="">
+</div>
 
 <header id="site-header">
   <nav>
@@ -202,19 +249,11 @@ footer{background:var(--bg);padding:24px 60px;display:flex;align-items:center;ju
   <!-- SVG layer: footsteps trail + compass -->
   <div class="hero-svgs">
     <img class="hero-footsteps"
-         src="landing-page-elements/icons_footsteps.svg"
+         src="landing-page-elements/icons_footsteps_N.svg"
          alt="">
     <img class="hero-compass" id="cta-btn"
-         src="landing-page-elements/icons_compass.svg"
+         src="landing-page-elements/icons_compass_N.svg"
          alt="Enter the portfolio">
-    <div id="hero-hint">
-        <div class="hero-hint-line"></div>
-          <span>move your <span class="red">pointer</span> to start <span class="red">walking</span></span>
-    </div>
-    <div id="hero-hint-2">
-      <span>click in the <span class="red">middle</span> to start <span class="red">wandering</span></span>
-      <div class="hero-hint-line"></div>
-    </div>
 
   </div>
 
@@ -230,12 +269,15 @@ footer{background:var(--bg);padding:24px 60px;display:flex;align-items:center;ju
     </div>
   </div>
 
-  <!-- Scroll hint -->
-  <div class="hero-scroll" onclick="scrollToSection('gallery')">
-    <span>or scroll down</span>
-    <div class="hero-scroll-line"></div>
+  <!-- Hints block -->
+  <div id="hero-hints-block">
+    <div id="hint-texts">
+      <div class="hint-item hint-move" id="hint-move"><span>move your pointer to walk</span></div>
+      <div class="hint-line"></div>
+      <div class="hint-item hint-click" id="hint-click"><span>click in the center to wander</span></div>
+    </div>
   </div>
-
+  <button id="hint-scroll" onclick="scrollToSection('gallery')">explore more</button>
 </section>
 
 <section id="gallery">
@@ -265,7 +307,7 @@ footer{background:var(--bg);padding:24px 60px;display:flex;align-items:center;ju
     </div>
   </div>
   <div class="about-center">
-    <img class="about-footsteps" src="landing-page-elements/icons_footsteps.svg" alt="">
+    <img class="about-footsteps" src="landing-page-elements/icons_footsteps_N.svg" alt="">
     <button class="about-wander-btn" onclick="openRandom()">seguir deambulando</button>
   </div>
 </section>
@@ -276,7 +318,7 @@ footer{background:var(--bg);padding:24px 60px;display:flex;align-items:center;ju
     <span>designed by</span>
     <img src="landing-page-elements/clash_logo.png" alt="CLASH">
   </div>
-  <button class="footer-contact-btn" onclick="window.location='mailto:YOUR_EMAIL_HERE'">Contact for prints and collabs ;)</button>
+  <button class="footer-contact-btn" onclick="openContactModal()">Contact for prints and collabs ;)</button>
 </footer>
 
 <button class="back-to-top" id="back-to-top">&#8593; </button>
@@ -284,28 +326,72 @@ footer{background:var(--bg);padding:24px 60px;display:flex;align-items:center;ju
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
   <button class="lb-close" id="lb-close">&#10005;</button>
-  <button class="lb-nav prev" id="lb-prev">&#8249;</button>
-  <button class="lb-nav next" id="lb-next">&#8250;</button>
-  <div class="lb-inner">
-    <div class="lb-img-wrap">
-      <img id="lb-img" src="" alt="">
-    </div>
-    <div class="lb-sidebar">
-      <div class="lb-wander-header" id="lb-wander-header"></div>
-      <div>
-        <span class="lb-cat-label">ATTRIBUTES</span>
-        <div class="lb-tags" id="lb-tags-flat"></div>
-      </div>
-      <div class="wander-section" id="wander-section" style="display:none">
-        <div class="wander-next-hint" id="wander-next-hint"></div>
-        <button class="wander-btn" id="wander-btn">&#8594;</button>
-        <button class="stop-btn" id="stop-btn">or STOP WANDERING</button>
-      </div>
+
+  <div class="lb-img-wrap">
+    <img id="lb-img" src="" alt="">
+    <div id="lb-loader">
+      <img src="landing-page-elements/icons_compass_N.svg" alt="">
     </div>
   </div>
-</div>
 
+  <div class="lb-thumb lb-thumb-prev" id="lb-thumb-prev" onclick="navigatePhoto(-1)">
+    <span class="lb-thumb-label">Previous</span>
+    <img id="lb-thumb-prev-img" src="" alt="">
+  </div>
+
+  <div class="lb-thumb lb-thumb-next" id="lb-thumb-next" onclick="navigatePhoto(1)">
+    <img id="lb-thumb-next-img" src="" alt="">
+    <span class="lb-thumb-label">Next</span>
+  </div>
+
+  <div class="lb-bar">
+    <button class="lb-bar-stop" id="stop-btn" style="display:none">Stop Wandering</button>
+    <div class="lb-bar-center">
+      <div class="lb-bar-header" id="lb-wander-header"></div>
+      <div class="lb-tags" id="lb-tags-flat"></div>
+    </div>
+    <button class="lb-bar-wander" id="wander-btn" style="display:none">Wander on &#8594;</button>
+  </div>
+</div>
+<!-- CONTACT MODAL -->
+<div class="contact-modal" id="contact-modal">
+  <div class="contact-modal-inner">
+    <button class="contact-modal-close" id="contact-modal-close">&#10005;</button>
+    <h2>get in touch</h2>
+    <form id="contact-form" action="https://formspree.io/f/mdabakdr" method="POST">
+      <input type="hidden" name="_subject" value="New message from Wander Portfolio">
+      <input type="hidden" name="_next" value="https://cbeneditm.github.io/wander-portfolio/">
+      <input type="text" name="_gotcha" style="display:none">
+      <div class="contact-field">
+        <label for="cf-name">name</label>
+        <input id="cf-name" type="text" name="name" required>
+      </div>
+      <div class="contact-field">
+        <label for="cf-email">email</label>
+        <input id="cf-email" type="email" name="_replyto" required>
+      </div>
+      <div class="contact-field">
+        <label for="cf-msg">message</label>
+        <textarea id="cf-msg" name="message" rows="4" required></textarea>
+      </div>
+      <div class="contact-submit-row">
+        <button type="submit" class="footer-contact-btn">send</button>
+      </div>
+    </form>
+  </div>
+</div>
 <script>
+
+function webpSrc(file, sub) {
+  return 'photos/webp/' + (sub ? sub + '/' : '') + file.replace(/\.jpe?g$/i, '.webp');
+}
+function setThumbSrc(id, file) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.onerror = function() { el.onerror = null; el.src = 'photos/' + file; };
+  el.src = webpSrc(file, 'thumbs');
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // CATEGORIES
 // Add or remove tags here to match your Bridge keyword sets.
@@ -387,6 +473,7 @@ let currentIdx = 0;
 let wanderTag  = null;
 let wanderPool = [];
 let wanderHist = [];
+let wanderPos  = 0;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // FILTER BAR
@@ -496,14 +583,18 @@ function renderGrid() {
     item.className = "photo-item";
 
     const img = document.createElement("img");
-    img.src = "photos/" + photo.file;
     img.alt = photo.file;
     img.loading = "lazy";
-    // Fallback background if image fails to load
     img.onerror = function() {
-      item.style.background = "#1a1a18";
-      item.style.minHeight  = "160px";
+      if (img.src.indexOf('/webp/') !== -1) {
+        img.onerror = function() { item.style.background = "#1a1a18"; item.style.minHeight = "160px"; };
+        img.src = "photos/" + photo.file;
+      } else {
+        item.style.background = "#1a1a18";
+        item.style.minHeight  = "160px";
+      }
     };
+    img.src = webpSrc(photo.file, 'thumbs');
 
     const ov = document.createElement("div");
     ov.className = "photo-overlay";
@@ -520,6 +611,9 @@ function renderGrid() {
     item.appendChild(ov);
 
     item.addEventListener("click", function() { openLightbox(i); });
+    item.addEventListener('touchstart', function() { item.classList.add('touched'); }, {passive:true});
+    item.addEventListener('touchmove',  function() { item.classList.remove('touched'); }, {passive:true});
+    item.addEventListener('touchend',   function() { setTimeout(function() { item.classList.remove('touched'); }, 400); }, {passive:true});
     grid.appendChild(item);
   });
 }
@@ -572,22 +666,21 @@ function openLightbox(idx) {
   wanderTag  = null;
   wanderPool = [];
   wanderHist = [];
+  wanderPos  = 0;
   showLightbox();
 }
-
 function openRandom() {
   if (PHOTOS.length === 0) return;
   filtered   = PHOTOS.slice();
   currentIdx = Math.floor(Math.random() * filtered.length);
   var photo  = filtered[currentIdx];
-  // Pick a random tag and start wander immediately
   var tag    = photo.tags[Math.floor(Math.random() * photo.tags.length)];
   wanderTag  = tag;
   wanderPool = PHOTOS.filter(function(p) { return p.tags.includes(tag) && p.file !== photo.file; });
-  wanderHist = [];
+  wanderHist = [photo.file];
+  wanderPos  = 0;
   showLightbox();
 }
-
 function showLightbox() {
   renderLightbox();
   document.getElementById("lightbox").classList.add("open");
@@ -604,27 +697,64 @@ function renderLightbox() {
   var photo = filtered[currentIdx];
   if (!photo) return;
 
-  var img = document.getElementById("lb-img");
-  var isOpen = document.getElementById("lightbox").classList.contains("open");
+  var img      = document.getElementById("lb-img");
+  var lbLoader = document.getElementById('lb-loader');
+  var isOpen   = document.getElementById("lightbox").classList.contains("open");
+
+  function onImgReady() {
+    img.classList.remove("fading");
+    if (lbLoader) lbLoader.classList.remove("active");
+    var pt = document.getElementById('lb-thumb-prev');
+    var nt = document.getElementById('lb-thumb-next');
+    if (pt) pt.style.visibility = '';
+    if (nt) nt.style.visibility = '';
+    positionThumbs();
+  }
+  img.onload  = onImgReady;
+  img.onerror = function() { img.onerror = onImgReady; img.src = 'photos/' + photo.file; };
+  var prevThumb = document.getElementById('lb-thumb-prev');
+  var nextThumb = document.getElementById('lb-thumb-next');
+  if (prevThumb) prevThumb.style.visibility = 'hidden';
+  if (nextThumb) nextThumb.style.visibility = 'hidden';
+
   if (isOpen) {
     img.classList.add("fading");
+    if (lbLoader) lbLoader.classList.add("active");
     setTimeout(function() {
-      img.src = "photos/" + photo.file;
+      img.src = webpSrc(photo.file, '');
       img.alt = photo.file;
-      img.classList.remove("fading");
+      if (img.complete && img.naturalWidth) onImgReady();
     }, 200);
   } else {
-    img.src = "photos/" + photo.file;
+    img.classList.add("fading");
+    if (lbLoader) lbLoader.classList.add("active");
+    img.src = webpSrc(photo.file, '');
     img.alt = photo.file;
+    if (img.complete && img.naturalWidth) onImgReady();
   }
-  // Header
-  var header = document.getElementById("lb-wander-header");
-  if (header) {
-    if (wanderTag) {
-      var total = PHOTOS.filter(function(p) { return p.tags.includes(wanderTag); }).length;
-      header.innerHTML = "Wandering through <strong>" + wanderTag + "</strong> &mdash; " + total + " photo" + (total !== 1 ? "s" : "");
-    } else {
-      header.innerHTML = "";
+
+  // Thumbnails
+  if (wanderTag) {
+    var prevFile = wanderPos > 0 ? wanderHist[wanderPos - 1] : null;
+    var nextFile = wanderPos < wanderHist.length - 1 ? wanderHist[wanderPos + 1] : null;
+    if (prevThumb) {
+      if (prevFile) { setThumbSrc('lb-thumb-prev-img', prevFile); prevThumb.style.display = ''; }
+      else prevThumb.style.display = 'none';
+    }
+    if (nextThumb) {
+      if (nextFile) { setThumbSrc('lb-thumb-next-img', nextFile); nextThumb.style.display = ''; }
+      else nextThumb.style.display = 'none';
+    }
+  } else {
+    var prevPhoto = filtered[currentIdx - 1] || null;
+    var nextPhoto = filtered[currentIdx + 1] || null;
+    if (prevThumb) {
+      if (prevPhoto) { setThumbSrc('lb-thumb-prev-img', prevPhoto.file); prevThumb.style.display = ''; }
+      else prevThumb.style.display = 'none';
+    }
+    if (nextThumb) {
+      if (nextPhoto) { setThumbSrc('lb-thumb-next-img', nextPhoto.file); nextThumb.style.display = ''; }
+      else nextThumb.style.display = 'none';
     }
   }
 
@@ -643,7 +773,6 @@ function renderLightbox() {
     });
   }
   renderWanderSection();
-
 }
 
 function selectWanderTag(tag) {
@@ -651,80 +780,120 @@ function selectWanderTag(tag) {
     wanderTag  = null;
     wanderPool = [];
     wanderHist = [];
+    wanderPos  = 0;
   } else {
     wanderTag  = tag;
-    wanderPool = PHOTOS.filter(function(p) {
-      return p.tags.includes(tag) && p.file !== filtered[currentIdx].file;
-    });
-    wanderHist = [];
+    wanderPool = PHOTOS.filter(function(p) { return p.tags.includes(tag) && p.file !== filtered[currentIdx].file; });
+    wanderHist = [filtered[currentIdx].file];
+    wanderPos  = 0;
   }
   renderLightbox();
 }
 
 function clearWander() {
-  wanderTag = null; wanderPool = []; wanderHist = [];
+  wanderTag = null; wanderPool = []; wanderHist = []; wanderPos = 0;
   renderLightbox();
 }
 
 function wanderNext() {
-  if (!wanderTag || !wanderPool.length) return;
+  if (!wanderTag) return;
+  if (wanderPos < wanderHist.length - 1) {
+    wanderPos++;
+    var file = wanderHist[wanderPos];
+    var idx  = filtered.findIndex(function(p) { return p.file === file; });
+    if (idx === -1) { var f = PHOTOS.find(function(p) { return p.file === file; }); if (f) { filtered.push(f); idx = filtered.length - 1; } }
+    currentIdx = idx;
+    wanderPool = PHOTOS.filter(function(p) { return p.tags.includes(wanderTag) && p.file !== file; });
+    renderLightbox();
+    return;
+  }
   var avail = wanderPool.filter(function(p) { return !wanderHist.includes(p.file); });
-  if (!avail.length) { wanderHist = []; avail = wanderPool.slice(); }
+  if (!avail.length) avail = PHOTOS.filter(function(p) { return p.tags.includes(wanderTag) && p.file !== filtered[currentIdx].file; });
+  if (!avail.length) return;
   var next = avail[Math.floor(Math.random() * avail.length)];
   wanderHist.push(next.file);
+  wanderPos = wanderHist.length - 1;
   var idx = filtered.findIndex(function(p) { return p.file === next.file; });
   if (idx === -1) { filtered.push(next); idx = filtered.length - 1; }
   currentIdx = idx;
-  wanderPool = PHOTOS.filter(function(p) {
-    return p.tags.includes(wanderTag) && p.file !== next.file;
-  });
+  wanderPool = PHOTOS.filter(function(p) { return p.tags.includes(wanderTag) && p.file !== next.file; });
   renderLightbox();
 }
 
 function renderWanderSection() {
-  var sec  = document.getElementById("wander-section");
-  var hint = document.getElementById("wander-next-hint");
-  var btn  = document.getElementById("wander-btn");
-  var hdr  = document.getElementById("lb-wander-header");
-  if (wanderTag) {
-    sec.style.display = "flex";
-    var total = PHOTOS.filter(function(p) { return p.tags.includes(wanderTag); }).length;
-    if (hdr) hdr.innerHTML = "Wandering through <strong>" + wanderTag + "</strong> &mdash; " + total + " photo" + (total !== 1 ? "s" : "");
-    if (hint) hint.innerHTML = "Space or click for next <strong>&ldquo;" + wanderTag + "&rdquo;</strong>";
-    btn.disabled = (wanderPool.length === 0);
-  } else {
-    sec.style.display = "none";
-    if (hdr) hdr.innerHTML = "";
-  }
+  var stopBtn   = document.getElementById("stop-btn");
+  var wanderBtn = document.getElementById("wander-btn");
+  var hdr       = document.getElementById("lb-wander-header");
+  var on        = !!wanderTag;
+  if (stopBtn)   stopBtn.style.display   = on ? '' : 'none';
+  if (wanderBtn) { wanderBtn.style.display = on ? '' : 'none'; if (on) wanderBtn.disabled = (wanderPool.length === 0); }
+  if (hdr)       hdr.innerHTML = on ? "Wandering through <strong>" + wanderTag + "</strong> &mdash;&nbsp;" : "";
 }
 
 function navigatePhoto(dir) {
-  var n = currentIdx + dir;
-  if (n < 0 || n >= filtered.length) return;
-  currentIdx = n;
   if (wanderTag) {
-    wanderPool = PHOTOS.filter(function(p) {
-      return p.tags.includes(wanderTag) && p.file !== filtered[n].file;
-    });
+    var newPos = wanderPos + dir;
+    if (newPos < 0 || newPos >= wanderHist.length) return;
+    wanderPos  = newPos;
+    var file   = wanderHist[wanderPos];
+    var idx    = filtered.findIndex(function(p) { return p.file === file; });
+    if (idx === -1) { var f = PHOTOS.find(function(p) { return p.file === file; }); if (f) { filtered.push(f); idx = filtered.length - 1; } }
+    currentIdx = idx;
+    wanderPool = PHOTOS.filter(function(p) { return p.tags.includes(wanderTag) && p.file !== file; });
+  } else {
+    var n = currentIdx + dir;
+    if (n < 0 || n >= filtered.length) return;
+    currentIdx = n;
   }
   renderLightbox();
+}
+function positionThumbs() {
+  var img = document.getElementById('lb-img');
+  if (!img || !img.naturalWidth) return;
+  var r    = img.getBoundingClientRect();
+  var prev = document.getElementById('lb-thumb-prev');
+  var next = document.getElementById('lb-thumb-next');
+  var iw   = window.innerWidth;
+  var ih   = window.innerHeight;
+  var mob  = iw <= 768;
+  var tW   = iw <= 768 ? 80 : iw <= 1024 ? 100 : 160;
+  var gap  = 16;
+
+  [prev, next].forEach(function(el) {
+    if (el) { el.style.top='auto'; el.style.bottom='auto'; el.style.left='auto'; el.style.right='auto'; }
+  });
+
+  if (next && next.style.display !== 'none') {
+    if (mob) {
+      next.style.top   = Math.max(4, r.top - 55) + 'px';
+      next.style.right = (iw - r.right) + 'px';
+      next.style.left  = 'auto';
+    } else {
+      next.style.top   = r.top + 'px';
+      next.style.left  = (r.right + gap) + 'px';
+      next.style.right = 'auto';
+    }
+  }
+
+  if (prev && prev.style.display !== 'none') {
+    if (mob) {
+      prev.style.left   = r.left + 'px';
+      prev.style.top    = (r.bottom + 4) + 'px';
+      prev.style.bottom = 'auto';
+    } else {
+      prev.style.left   = Math.max(0, r.left - tW - gap) + 'px';
+      prev.style.bottom = (ih - r.bottom) + 'px';
+      prev.style.top    = 'auto';
+    }
+  }
+
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // EVENTS
 // ─────────────────────────────────────────────────────────────────────────────
 document.getElementById("cta-btn").addEventListener("click", openRandom);
-/*window.addEventListener('scroll', function() {
-  var hero = document.getElementById('hero');
-  if (!hero) return;
-  if (window.scrollY > hero.offsetHeight * 0.6) {
-    var h2 = document.getElementById('hero-hint-2');
-    if (h2) h2.classList.remove('visible');
-  }
-});*/
 document.getElementById("lb-close").addEventListener("click", closeLightbox);
-document.getElementById("lb-prev").addEventListener("click", function() { navigatePhoto(-1); });
-document.getElementById("lb-next").addEventListener("click", function() { navigatePhoto(1); });
 document.getElementById("wander-btn").addEventListener("click", wanderNext);
 document.getElementById("stop-btn").addEventListener("click", clearWander);
 
@@ -738,6 +907,9 @@ document.addEventListener("keydown", function(e) {
   if (e.key === "ArrowLeft")  navigatePhoto(-1);
   if (e.key === "ArrowRight") navigatePhoto(1);
   if (e.key === " " && wanderTag) { e.preventDefault(); wanderNext(); }
+});
+window.addEventListener('resize', function() {
+  if (document.getElementById('lightbox').classList.contains('open')) positionThumbs();
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -761,17 +933,14 @@ function scrollToSection(id) {
   onScroll();
 })();
 (function() {
-  var btn     = document.getElementById('back-to-top');
-  var trigger = document.getElementById('gallery');
+  var btn = document.getElementById('back-to-top');
 
   function onScroll() {
-    if (!trigger) return;
-    var rect = trigger.getBoundingClientRect();
-    // Show once the "Show more" button has scrolled above the viewport
-    btn.classList.toggle('visible', rect.top < 0);
+    btn.classList.toggle('visible', window.scrollY > 0);
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
   btn.addEventListener('click', function() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
@@ -785,27 +954,46 @@ function scrollToSection(id) {
     if (!compass || !hero) return;
     var hw = hero.offsetWidth;
     var hh = hero.offsetHeight;
-    // Position: horizontally ~60% from left, vertically ~52% from top
     compass.style.left = (hw / 2 - compass.offsetWidth / 2) + 'px';
-    compass.style.top  = (hh / 2 - compass.offsetHeight / 2 + 70) + 'px';
-    var hint = document.getElementById('hero-hint');
-    if (hint) hint.style.top = (parseFloat(compass.style.top) + compass.offsetHeight + 14) + 'px';
-    var hint2 = document.getElementById('hero-hint-2');
-    if (hint2) hint2.style.top = (parseFloat(compass.style.top) - hint2.offsetHeight - 14) + 'px';
+    compass.style.top  = (hh / 2 - compass.offsetHeight / 2) + 'px';
   }
   place();
   window.addEventListener('resize', place);
   var compassEl = document.getElementById('cta-btn');
   if (compassEl) compassEl.addEventListener('load', place);
-  setTimeout(function() {
-    var h = document.getElementById('hero-hint');
-    if (!h) return;
-    h.classList.add('visible');
-    if (h.dataset.dismissed === '1') {
-      setTimeout(function() { h.classList.remove('visible'); }, 2000);
-    }
-  }, 900);
 })();
+
+(function hintLoop() {
+  var items   = [
+    document.getElementById('hint-move'),
+    document.getElementById('hint-click')
+  ];
+  var timers  = [];
+
+  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+
+  function activate(idx) {
+    items.forEach(function(el) { if (el) el.classList.remove('active'); });
+    if (items[idx]) items[idx].classList.add('active');
+  }
+
+  function runCycle() {
+    clearTimers();
+    activate(0);
+    timers.push(setTimeout(function() { activate(1); }, 2000));
+    timers.push(setTimeout(runCycle, 4200));
+  }
+
+  runCycle();
+
+})();
+
+if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+  var el = document.querySelector('#hint-move span');
+  if (el) el.textContent = 'move your finger to walk';
+  el = document.querySelector('#hint-click span');
+  if (el) el.textContent = 'tap in the center to wander';
+}
 
 // ── COMPASS LOOK-AT CURSOR ────────────────────────────────────────────────────
 (function() {
@@ -871,6 +1059,17 @@ function scrollToSection(id) {
   hero.addEventListener('mouseleave', function() {
     targetAngle = 0;
   });
+
+  hero.addEventListener('touchmove', function(e) {
+    var t    = e.touches[0];
+    var rect = compass.getBoundingClientRect();
+    var dx   = t.clientX - (rect.left + rect.width / 2);
+    var dy   = t.clientY - (rect.top + rect.height / 2);
+    var d    = Math.sqrt(dx * dx + dy * dy);
+    if (d < 10) { targetAngle = 0; return; }
+    targetAngle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+  }, {passive: true});
+
 })();
 
 // ── FOOTSTEPS CURSOR TRAIL ────────────────────────────────────────────────────
@@ -882,7 +1081,7 @@ function scrollToSection(id) {
   // Minimum distance between stamps (relative to image size)
   var MIN_DIST   = 60;   // tweak this — higher = more spread apart
   var FADE_TIME  = 2200; // ms until fully faded by time
-  var MAX_DIST   = 300;  // px — fully faded at this distance from cursor
+  var MAX_DIST   = 180;  // px — fully faded at this distance from cursor
   var stamps     = [];
   var lastStamp  = null;
   var mouse      = { x: null, y: null };
@@ -928,53 +1127,45 @@ function scrollToSection(id) {
     return stamps[stamps.length - 1].el.offsetWidth * 1.3;
   }
 
-  hero.addEventListener('mousemove', function(e) {
-    heroRect  = hero.getBoundingClientRect();
-    mouse.x   = e.clientX - heroRect.left;
-    mouse.y   = e.clientY - heroRect.top;
-
+  function handleHeroMove(x, y) {
+    mouse.x = x; mouse.y = y;
     if (!interacted) {
-    interacted = true;
-    cancelAnimationFrame(idleAnimation);
-    var hint = document.getElementById('hero-hint');
-    if (hint) {
-      if (hint.classList.contains('visible')) {
-        hint.classList.remove('visible');
-      } else {
-        hint.dataset.dismissed = '1';
-      }
+      interacted = true;
+      cancelAnimationFrame(idleAnimation);
+      baseImg.style.opacity = '0';
+      idleStamps.forEach(function(s) {
+        s.el.parentNode && s.el.parentNode.removeChild(s.el);
+      });
+      idleStamps = [];
     }
-    var scroll = document.querySelector('.hero-scroll');
-    if (scroll) scroll.classList.add('visible');
-    var hint2 = document.getElementById('hero-hint-2');
-    if (hint2) hint2.classList.add('visible');
-    baseImg.style.opacity = '0';
-    idleStamps.forEach(function(s) {
-      s.el.parentNode && s.el.parentNode.removeChild(s.el);
-    });
-    idleStamps = [];
-    }
-
     var angle = 0;
     if (lastStamp) {
-      var dx = mouse.x - lastStamp.x;
-      var dy = mouse.y - lastStamp.y;
-      angle  = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+      var dx = x - lastStamp.x;
+      var dy = y - lastStamp.y;
+      angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
     }
-
     var d = lastStamp ? dist(mouse, lastStamp) : Infinity;
     if (d >= getMinDist()) {
-      var s  = createStamp(mouse.x, mouse.y, angle);
+      var s = createStamp(x, y, angle);
       stamps.push(s);
-      lastStamp = { x: mouse.x, y: mouse.y };
+      lastStamp = { x: x, y: y };
     }
+  }
+
+  hero.addEventListener('mousemove', function(e) {
+    heroRect = hero.getBoundingClientRect();
+    handleHeroMove(e.clientX - heroRect.left, e.clientY - heroRect.top);
   });
 
-  hero.addEventListener('mouseleave', function() {
-    // Don't hide — leave stamps at last position, they fade naturally
-    mouse.x = null;
-    mouse.y = null;
-  });
+  hero.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    heroRect = hero.getBoundingClientRect();
+    var t = e.touches[0];
+    handleHeroMove(t.clientX - heroRect.left, t.clientY - heroRect.top);
+  }, {passive: false});
+
+  hero.addEventListener('mouseleave', function() { mouse.x = null; mouse.y = null; });
+  hero.addEventListener('touchend', function() { mouse.x = null; mouse.y = null; }, {passive: true});
 
   // Animation loop — fade by time AND distance
   function tick() {
@@ -1109,6 +1300,46 @@ fetch("photos.csv")
       + 'and you are opening the site via Live Server (not by double-clicking the file).'
       + '</div>';
   });
+
+window.addEventListener('load', function() {
+var l = document.getElementById('loader');
+if (l) {
+  l.classList.add('done');
+  setTimeout(function() { l.remove(); }, 700);
+  }
+});
+// ── CONTACT MODAL ──────────────────────────────────────────────────────────────
+function openContactModal() {
+  document.getElementById('contact-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeContactModal() {
+  document.getElementById('contact-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+(function() {
+  var modal = document.getElementById('contact-modal');
+  document.getElementById('contact-modal-close').addEventListener('click', closeContactModal);
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeContactModal(); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeContactModal();
+  });
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = e.target;
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function(res) {
+      if (res.ok) {
+        form.reset();
+        closeContactModal();
+      }
+    });
+  });
+})();
+
 </script>
 </body>
 </html>
