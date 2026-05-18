@@ -10,6 +10,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://cbeneditm.github.io/wander-portfolio/">
 <meta property="og:image" content="https://cbeneditm.github.io/wander-portfolio/landing-page-elements/screenshot_wander-landing-page.jpg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 
 <style>
 @font-face {
@@ -157,11 +158,8 @@ nav button.dark-mode{color:var(--text)}
 .lb-thumb-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(26,26,26,1);font-family:'DM Sans',sans-serif}
 #lb-thumb-wander-text{font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:15px;color:rgba(26,26,26,0.8);border:1px solid rgba(26,26,26,0.45);padding:12px 18px;background:var(--hero-bg);text-align:center;line-height:1.8;display:inline-block;max-width:min(200px,calc(100vw - 48px));word-break:break-word;transition:color 0.2s,border-color 0.2s,background 0.2s}
 #lb-thumb-wander-text:hover{color:rgba(26,26,26,0.95);border-color:rgba(26,26,26,0.65);background:#f0e8cc;box-shadow:0 0 0 1px rgba(26,26,26,0.2)}
-.lb-share{position:fixed;z-index:205;cursor:pointer;background:var(--hero-bg);border:1px solid rgba(26,26,26,0.45);color:rgba(26,26,26,0.75);font-size:14px;padding:8px 12px;font-family:'Iowan Old Style',Georgia,serif;font-style:italic;transition:color 0.2s,border-color 0.2s,background 0.2s;line-height:1;display:flex;align-items:center;gap:6px}
-.lb-share:hover{color:rgba(26,26,26,0.95);border-color:rgba(26,26,26,0.65);background:#f0e8cc;box-shadow:0 0 0 1px rgba(26,26,26,0.2)}
 .lb-share-tooltip{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:6px;font-family:'Iowan Old Style',Georgia,serif;font-style:italic;font-size:13px;color:rgba(26,26,26,0.75);white-space:nowrap;opacity:0;transition:opacity 0.3s;pointer-events:none;background:var(--hero-bg);border:1px solid rgba(26,26,26,0.15);padding:5px 12px}
 .lb-share-tooltip.show{opacity:1}
-.lb-share-icon{width:14px;height:14px;opacity:0.65;display:block;transition:opacity 0.2s}.lb-share:hover .lb-share-icon{opacity:1}
 .lb-thumb-next{align-items:flex-start}
 .lb-thumb-prev{align-items:flex-end}
 .lb-bar{position:fixed;bottom:16px;left:0;right:0;height:64px;background:#1a1a1a;color:#fff;display:flex;align-items:center;z-index:205}
@@ -345,7 +343,9 @@ footer{background:var(--bg);padding:24px 60px;display:grid;grid-template-columns
   <span class="footer-name">Clara Benedit Photography</span>
   <div class="footer-credit">
     <span>designed by</span>
-    <img src="landing-page-elements/clash_logo.png" alt="CLASH">
+    <a href="https://clashmotion.xyz" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center">
+      <img src="landing-page-elements/clash_logo.png" alt="CLASH">
+    </a> 
   </div>
   <button class="footer-contact-btn" onclick="openContactModal()">Contact for prints and collabs ;)</button>
 </footer>
@@ -375,10 +375,6 @@ footer{background:var(--bg);padding:24px 60px;display:grid;grid-template-columns
     <span class="lb-thumb-label" id="lb-thumb-next-label">Next</span>
   </div>
 
-  <button class="lb-share" id="lb-share" aria-label="Share this photo">
-  <img src="landing-page-elements/ShareIcon-01.png" alt="" class="lb-share-icon"> share
-  <span class="lb-share-tooltip" id="lb-share-tooltip">link copied</span>
-  </button>
 
   <div class="lb-bar">
     <button class="lb-bar-stop" id="stop-btn" style="display:none">Stop Wandering</button>
@@ -386,7 +382,10 @@ footer{background:var(--bg);padding:24px 60px;display:grid;grid-template-columns
       <div class="lb-bar-header" id="lb-wander-header"></div>
       <div class="lb-tags" id="lb-tags-flat"></div>
     </div>
-    <button class="lb-bar-wander" id="wander-btn" style="display:none">Wander on &#8594;</button>
+    <button class="lb-bar-wander" id="lb-bar-share">
+      <img src="landing-page-elements/ShareIcon-01.png" style="width:14px;height:14px;opacity:0.65;filter:invert(1)" alt=""> share
+      <span class="lb-share-tooltip" id="lb-share-tooltip" style="bottom:calc(100% + 10px);top:auto;left:50%;transform:translateX(-50%);margin-top:0">link copied</span>
+    </button>
   </div>
 </div>
 <!-- CONTACT MODAL -->
@@ -746,8 +745,6 @@ function renderLightbox() {
     var nt = document.getElementById('lb-thumb-next');
     if (pt) pt.style.visibility = '';
     if (nt) nt.style.visibility = '';
-    var shareBtn = document.getElementById('lb-share');
-    if (shareBtn) shareBtn.style.visibility = '';
     positionThumbs();
   }
   img.onload  = onImgReady;
@@ -819,8 +816,7 @@ if (isOpen) {
     }
     if (prevThumb) prevThumb.style.visibility = 'hidden';
     if (nextThumb) nextThumb.style.visibility = 'hidden';
-    var shareBtn = document.getElementById('lb-share');
-    if (shareBtn) shareBtn.style.visibility = 'hidden';
+
   }
 
   // Flat tag list
@@ -894,11 +890,9 @@ function handleNextThumbClick() {
 
 function renderWanderSection() {
   var stopBtn   = document.getElementById("stop-btn");
-  var wanderBtn = document.getElementById("wander-btn");
   var hdr       = document.getElementById("lb-wander-header");
   var on        = !!wanderTag;
   if (stopBtn)   stopBtn.style.display   = on ? '' : 'none';
-  if (wanderBtn) { wanderBtn.style.display = on ? '' : 'none'; if (on) wanderBtn.disabled = (wanderPool.length === 0); }
   var atFrontier = on && (wanderPos >= wanderHist.length - 1);
   if (hdr)       hdr.innerHTML = (on && !atFrontier) ? "Wandering through <strong>" + wanderTag + "</strong> &mdash;&nbsp;" : "";
 }
@@ -957,30 +951,6 @@ function positionThumbs() {
       prev.style.top    = 'auto';
     }
   }
-  var share = document.getElementById('lb-share');
-  if (share) {
-    share.style.top = 'auto'; share.style.bottom = 'auto';
-    share.style.left = 'auto'; share.style.right = 'auto';
-    if (mob) {
-      // Mobile: bottom-right, below the image, aligned right
-      share.style.top = (r.bottom + 4) + 'px';
-      share.style.right = (iw - r.right) + 'px';
-    } else {
-      // Desktop: right side, below the next thumbnail
-      var nextEl = document.getElementById('lb-thumb-next');
-      var wtEl   = document.getElementById('lb-thumb-wander-text');
-      if (nextEl && nextEl.style.display !== 'none') {
-        var nr = nextEl.getBoundingClientRect();
-        share.style.top   = (nr.bottom + 16) + 'px';
-        share.style.left  = nr.left + 'px';
-        share.style.width = (wtEl && wtEl.style.display !== 'none') ? wtEl.offsetWidth + 'px' : tW + 'px';
-      } else {
-        share.style.top   = (r.top + 160) + 'px';
-        share.style.left  = (r.right + gap) + 'px';
-        share.style.width = tW + 'px';
-      }
-    }
-  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -988,7 +958,6 @@ function positionThumbs() {
 // ─────────────────────────────────────────────────────────────────────────────
 document.getElementById("cta-btn").addEventListener("click", openRandom);
 document.getElementById("lb-close").addEventListener("click", closeLightbox);
-document.getElementById("wander-btn").addEventListener("click", wanderNext);
 document.getElementById("stop-btn").addEventListener("click", clearWander);
 
 document.getElementById("lightbox").addEventListener("click", function(e) {
@@ -1027,7 +996,7 @@ window.addEventListener('resize', function() {
   if (document.getElementById('lightbox').classList.contains('open')) positionThumbs();
 });
 // ── SHARE & DEEP LINKS ──────────────────────────────────────────────────────
-document.getElementById('lb-share').addEventListener('click', function(e) {
+document.getElementById('lb-bar-share').addEventListener('click', function(e) {
   e.stopPropagation();
   var photo = filtered[currentIdx];
   if (!photo) return;
